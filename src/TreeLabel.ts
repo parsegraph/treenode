@@ -1,29 +1,25 @@
 import TreeNode from "./TreeNode";
-import WindowNode from "../WindowNode";
-import Caret from "../Caret";
-import DefaultNodePalette from "../DefaultNodePalette";
 
-export const TREE_LABEL_SYMBOL = Symbol("TreeLabel");
+import {PaintedNode} from "parsegraph-artist";
+import {BlockCaret, DefaultBlockPalette} from "parsegraph-block";
+
 export default class TreeLabel extends TreeNode {
   _label: string;
   _type: any;
-  _palette: DefaultNodePalette;
+  _palette: DefaultBlockPalette;
 
   constructor(type?: any, label?: string) {
     super();
-    this._palette = new DefaultNodePalette();
+    this._palette = new DefaultBlockPalette();
     this._type = type || "b";
     this._label = label || "";
-  }
-  type() {
-    return TREE_LABEL_SYMBOL;
   }
   getValue(): any {
     return this._label;
   }
-  render(): WindowNode {
-    const car = new Caret(this._type);
+  render():PaintedNode {
+    const car = new BlockCaret(this._type);
     car.label(this.getValue());
-    return car.root();
+    return car.root() as PaintedNode;
   }
 }

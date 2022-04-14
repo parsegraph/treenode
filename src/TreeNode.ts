@@ -12,8 +12,6 @@ export default abstract class TreeNode {
     this._root = null;
   }
 
-  abstract type(): Symbol;
-
   abstract render(): PaintedNode;
 
   root(): PaintedNode {

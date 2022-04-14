@@ -14,7 +14,7 @@ import Direction, {
 export const BASIC_TREE_LIST_SYMBOL = Symbol("BasicTreeList");
 export default class BasicTreeList extends AbstractTreeList {
   _lastRow: PaintedNode;
-  _palette: InplaceNodePalette<PaintedNode>;
+  _palette: InplaceNodePalette;
 
   _direction: Direction;
   _align: Alignment;
@@ -29,7 +29,7 @@ export default class BasicTreeList extends AbstractTreeList {
   constructor(
     title: TreeNode,
     children: TreeNode[],
-    palette: InplaceNodePalette<PaintedNode>
+    palette: InplaceNodePalette
   ) {
     super(title, children);
     if (!palette) {

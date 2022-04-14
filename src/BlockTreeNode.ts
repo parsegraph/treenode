@@ -1,16 +1,17 @@
 import TreeNode from "./TreeNode";
-import DefaultNodePalette from "../DefaultNodePalette";
+import {DefaultBlockPalette } from "parsegraph-block";
+import {PaintedNode} from 'parsegraph-artist';
 
 export const BLOCK_TREE_NODE = Symbol("BlockTreeNode");
 export default class BlockTreeNode extends TreeNode {
   _label: string;
   _nodeType: any;
-  _palette: DefaultNodePalette;
+  _palette: DefaultBlockPalette;
   _style: any;
 
   constructor(nodeType?: any, label?: string, style?: any) {
     super();
-    this._palette = new DefaultNodePalette();
+    this._palette = new DefaultBlockPalette();
     this._nodeType = nodeType;
     this._label = label;
     this._style = style;
@@ -35,13 +36,13 @@ export default class BlockTreeNode extends TreeNode {
     this.invalidate();
   }
 
-  render() {
+  render(): PaintedNode {
     const root = this._palette.spawn(this.getType());
     if (this._label != null) {
-      root.setLabel(this._label);
+      root.value().setLabel(this._label);
     }
     if (this._style) {
-      root.setBlockStyle(this._style);
+      root.value().setBlockStyle(this._style);
     }
     return root;
   }
