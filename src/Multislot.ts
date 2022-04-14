@@ -17,8 +17,8 @@ export default class Multislot extends AbstractTreeList {
   constructor(
     title: TreeNode,
     children: TreeNode[],
-    palette: BlockPalette,
-    callback: () => void
+    palette: BlockPalette = new DefaultBlockPalette(),
+    callback: () => void = ()=>{}
   ) {
     super(title, children);
     if (!palette) {
@@ -43,7 +43,7 @@ export default class Multislot extends AbstractTreeList {
   }
 
   makeBud(value: TreeNode): PaintedNode {
-    const bud = this._palette.spawn() as PaintedNode;
+    const bud = this._palette.spawn("u") as PaintedNode;
     bud
       .value()
       .interact()

@@ -1,27 +1,20 @@
 import { Keystroke } from "parsegraph-input";
-import {
-  Alignment,
-  Direction,
-  NodePalette,
-  PreferredAxis,
-} from "parsegraph-direction";
+import { Alignment, Direction, PreferredAxis } from "parsegraph-direction";
 import BlockTreeNode from "./BlockTreeNode";
-import DefaultNodePalette from "../DefaultNodePalette";
 import AbstractTreeList from "./AbstractTreeList";
 import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
-import ActionCarousel from "../ActionCarousel";
-import DefaultNodeType from "../DefaultNodeType";
-import Node from "../Node";
+// import ActionCarousel from "../ActionCarousel";
+import { DefaultBlockPalette } from "parsegraph-block";
 
 const SPAWNER_SYMBOL = Symbol("Spawner");
 export default class Spawner extends AbstractTreeList {
   _lastRow: PaintedNode;
-  _palette: NodePalette<PaintedNode>;
+  _palette: DefaultBlockPalette;
 
   constructor(children: TreeNode[]) {
-    super(new BlockTreeNode(), children);
-    this._palette = new DefaultNodePalette();
+    super(new BlockTreeNode("u"), children);
+    this._palette = new DefaultBlockPalette();
   }
 
   type() {
@@ -33,12 +26,16 @@ export default class Spawner extends AbstractTreeList {
   }
 
   makeBud(value: TreeNode): PaintedNode {
-    const bud = this._palette.spawn() as Node<DefaultNodeType>;
-    bud.setKeyListener((_: Keystroke) => {
-      return true;
-    });
+    const bud = this._palette.spawn("u");
+    bud
+      .value()
+      .interact()
+      .setKeyListener((_: Keystroke) => {
+        return true;
+      });
     bud.setLayoutPreference(PreferredAxis.VERTICAL);
-    const carousel = new ActionCarousel();
+    console.log(value);
+    /* const carousel = new ActionCarousel();
     carousel.addAction("Delete", () => {
       console.log("Deleting this node");
       this.removeChild(value);
@@ -51,7 +48,7 @@ export default class Spawner extends AbstractTreeList {
       console.log("Insert node");
       this.insertBefore(this.createNew(), value);
     });
-    carousel.install(bud);
+    carousel.install(bud);*/
     return bud;
   }
 
@@ -63,7 +60,8 @@ export default class Spawner extends AbstractTreeList {
         return true;
       });
     root.setLayoutPreference(PreferredAxis.VERTICAL);
-    const carousel = new ActionCarousel();
+    console.log(value);
+    /* const carousel = new ActionCarousel();
     carousel.addAction("Delete", () => {
       console.log("Deleting this node");
       this.removeChild(value);
@@ -78,7 +76,7 @@ export default class Spawner extends AbstractTreeList {
         this.insertBefore(this.createNew(), value);
       });
     }
-    carousel.install(root as Node<DefaultNodeType>);
+    carousel.install(root as Node<DefaultNodeType>);*/
   }
 
   _builder: () => TreeNode;
@@ -96,14 +94,17 @@ export default class Spawner extends AbstractTreeList {
 
   makeFirstBud(value: TreeNode): PaintedNode {
     const bud = this.makeSmallBud();
-    bud.setClickListener(() => {
-      this.insertBefore(this.createNew(), value);
-    });
+    bud
+      .value()
+      .interact()
+      .setClickListener(() => {
+        this.insertBefore(this.createNew(), value);
+      });
     return bud;
   }
 
-  makeSmallBud(): Node<DefaultNodeType> {
-    const bud = this._palette.spawn("u") as Node<DefaultNodeType>;
+  makeSmallBud(): PaintedNode {
+    const bud = this._palette.spawn("u");
     /* bud.setBlockStyle({
       ...bud.blockStyle(),
       minWidth: BUD_RADIUS * 2,
@@ -119,9 +120,12 @@ export default class Spawner extends AbstractTreeList {
   makeNextBud(value: TreeNode): PaintedNode {
     const bud = this.makeSmallBud();
     if (this._builder) {
-      bud.setClickListener(() => {
-        this.insertAfter(this.createNew(), value);
-      });
+      bud
+        .value()
+        .interact()
+        .setClickListener(() => {
+          this.insertAfter(this.createNew(), value);
+        });
     }
     return bud;
   }

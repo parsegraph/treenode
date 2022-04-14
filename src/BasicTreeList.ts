@@ -1,9 +1,9 @@
 import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
+import {BlockPalette, DefaultBlockPalette} from 'parsegraph-block';
 import Direction, {
   PreferredAxis,
-  InplaceNodePalette,
   turnPositive,
   getDirectionAxis,
   Axis,
@@ -14,7 +14,7 @@ import Direction, {
 export const BASIC_TREE_LIST_SYMBOL = Symbol("BasicTreeList");
 export default class BasicTreeList extends AbstractTreeList {
   _lastRow: PaintedNode;
-  _palette: InplaceNodePalette;
+  _palette: BlockPalette;
 
   _direction: Direction;
   _align: Alignment;
@@ -24,12 +24,12 @@ export default class BasicTreeList extends AbstractTreeList {
    *
    * @param {TreeNode} title The root node of this tree list.
    * @param {TreeNode[]} children The initial children of this tree list.
-   * @param {InplaceNodePalette<PaintedNode>} palette The palette to use to construct joining buds.
+   * @param {BlockPalette} palette The palette to use to construct joining buds.
    */
   constructor(
     title: TreeNode,
     children: TreeNode[],
-    palette: InplaceNodePalette
+    palette: BlockPalette = new DefaultBlockPalette()
   ) {
     super(title, children);
     if (!palette) {
@@ -72,7 +72,7 @@ export default class BasicTreeList extends AbstractTreeList {
   }
 
   connectChild(lastChild: PaintedNode, child: PaintedNode): PaintedNode {
-    const bud = this._palette.spawn() as PaintedNode;
+    const bud = this._palette.spawn("u") as PaintedNode;
     lastChild.connectNode(turnPositive(this._direction), bud);
     bud.connectNode(this._direction, child);
     bud.setLayoutPreference(

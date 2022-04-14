@@ -57,6 +57,7 @@
     "parsegraph-block": "^4.3.0",
     "parsegraph-camera": "^1.4.11",
     "parsegraph-direction": "^2.1.0",
+    "parsegraph-graphpainter": "^2.4.0",
     "parsegraph-input": "^1.6.5",
     "parsegraph-layout": "^1.8.1",
     "parsegraph-projector": "^1.10.0",

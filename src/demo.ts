@@ -1,63 +1,44 @@
-import { Pizza } from "parsegraph-artist";
-import { WorldTransform } from "parsegraph-scene";
-import { DefaultBlockPalette } from "parsegraph-block";
 import { BasicProjector } from "parsegraph-projector";
 import TimingBelt from "parsegraph-timingbelt";
-import Camera from "parsegraph-camera";
-import { showInCamera } from "parsegraph-showincamera";
 import BlockTreeNode from "./BlockTreeNode";
-
-const palette = new DefaultBlockPalette();
+// import TreeLabel from "./TreeLabel";
+//import WrappingTreeList from "./WrappingTreeList";
+//import InlineTreeList from "./InlineTreeList";
+import { Viewport } from "parsegraph-graphpainter";
+import { Projection } from "parsegraph-projector";
+//import BasicTreeList from "./BasicTreeList";
+//import Multislot from "./Multislot";
+import Spawner from "./Spawner";
 
 const buildGraph = () => {
-  const block = new BlockTreeNode("b", "Hey its your block");
-  return block.render();
+  const list = new Spawner([]);
+  //const list = new BasicTreeList(block, []);
+  //const list = new InlineTreeList(block, []);
+  for (let i = 0; i < 10; ++i) {
+    list.appendChild(new BlockTreeNode("b", "" + (1 + i)));
+  }
+  return list.render();
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const root = document.getElementById("demo");
-  root.style.position = "relative";
-
-  const proj = new BasicProjector();
   const belt = new TimingBelt();
-  root.appendChild(proj.container());
+  const root = buildGraph();
+  const comp = new Viewport(root);
+  root.value().setOnScheduleUpdate(() => comp.scheduleUpdate());
+  // const freezer = new Freezer();
+  // root.value().getCache().freeze(freezer);
 
-  setTimeout(() => {
-    proj.glProvider().canvas();
-    proj.overlay();
-    proj.render();
-    proj.glProvider().gl().viewport(0, 0, proj.width(), proj.height());
-    proj.overlay().resetTransform();
-    proj.overlay().translate(proj.width() / 2, proj.height() / 2);
-    belt.addRenderable(pizza);
-    cam.setSize(proj.width(), proj.height());
-    showInCamera(pizza.root(), cam, false);
-    const wt = WorldTransform.fromCamera(pizza.root(), cam);
-    pizza.setWorldTransform(wt);
-  }, 0);
-
-  const pizza = new Pizza(proj);
-
-  const cam = new Camera();
-  const n = palette.spawn();
-  n.value().setLabel("No time");
-  pizza.populate(n);
-
-  const refresh = () => {
-    const n = buildGraph();
-    pizza.populate(n);
-    proj.glProvider().render();
-    cam.setSize(proj.width(), proj.height());
-    showInCamera(pizza.root(), cam, false);
-    proj.overlay().resetTransform();
-    proj.overlay().clearRect(0, 0, proj.width(), proj.height());
-    proj.overlay().scale(cam.scale(), cam.scale());
-    proj.overlay().translate(cam.x(), cam.y());
-    const wt = WorldTransform.fromCamera(pizza.root(), cam);
-    pizza.setWorldTransform(wt);
+  window.addEventListener("resize", () => {
     belt.scheduleUpdate();
-    const rand = () => Math.floor(Math.random() * 255);
-    document.body.style.backgroundColor = `rgb(${rand()}, ${rand()}, ${rand()})`;
-  };
-  setTimeout(refresh, 0);
+  });
+
+  const topElem = document.getElementById("demo");
+
+  const projector = new BasicProjector();
+  projector.glProvider().container();
+  projector.overlay();
+  topElem.appendChild(projector.container());
+  projector.container().style.position = "absolute";
+  const proj = new Projection(projector, comp);
+  belt.addRenderable(proj);
 });

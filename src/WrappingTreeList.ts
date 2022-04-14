@@ -1,16 +1,10 @@
 import AbstractTreeList from "./AbstractTreeList";
 import TreeNode from "./TreeNode";
 import { PaintedNode } from "parsegraph-artist";
-import Direction, {
-  SHRINK_SCALE,
-  InplaceNodePalette,
-} from "parsegraph-direction";
+import Direction, { SHRINK_SCALE } from "parsegraph-direction";
+import { DefaultBlockPalette, BlockPalette } from "parsegraph-block";
 
-const NEWLINE_SYMBOL = Symbol("NewlineTreeNode");
 export class NewlineTreeNode extends TreeNode {
-  type() {
-    return NEWLINE_SYMBOL;
-  }
   render(): PaintedNode {
     return null;
   }
@@ -20,7 +14,7 @@ export const NEWLINE = new NewlineTreeNode();
 
 export const WRAPPING_TREE_LIST_SYMBOL = Symbol("WrappingTreeList");
 export default class WrappingTreeList extends AbstractTreeList {
-  _palette: InplaceNodePalette<PaintedNode>;
+  _palette: BlockPalette;
   _putInside: boolean;
   _putFirstInside: boolean;
   _lastRow: PaintedNode;
@@ -29,7 +23,7 @@ export default class WrappingTreeList extends AbstractTreeList {
   constructor(
     title: TreeNode,
     children: TreeNode[],
-    palette: InplaceNodePalette<PaintedNode>,
+    palette: BlockPalette = new DefaultBlockPalette(),
     putInside: boolean = true
   ) {
     super(title, children);
@@ -49,10 +43,10 @@ export default class WrappingTreeList extends AbstractTreeList {
   }
 
   isNewline(node: TreeNode) {
-    return node && node.type() === NEWLINE_SYMBOL;
+    return node instanceof NewlineTreeNode;
   }
 
-  palette(): InplaceNodePalette<PaintedNode> {
+  palette(): BlockPalette {
     return this._palette;
   }
 
