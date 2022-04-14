@@ -1,6 +1,6 @@
 import TreeNode from "./TreeNode";
-import {DefaultBlockPalette } from "parsegraph-block";
-import {PaintedNode} from 'parsegraph-artist';
+import { DefaultBlockPalette } from "parsegraph-block";
+import { PaintedNode } from "parsegraph-artist";
 
 export const BLOCK_TREE_NODE = Symbol("BlockTreeNode");
 export default class BlockTreeNode extends TreeNode {

@@ -1,7 +1,7 @@
 import TreeNode from "./TreeNode";
 
-import {PaintedNode} from "parsegraph-artist";
-import {BlockCaret, DefaultBlockPalette} from "parsegraph-block";
+import { PaintedNode } from "parsegraph-artist";
+import { BlockCaret, DefaultBlockPalette } from "parsegraph-block";
 
 export default class TreeLabel extends TreeNode {
   _label: string;
@@ -17,7 +17,7 @@ export default class TreeLabel extends TreeNode {
   getValue(): any {
     return this._label;
   }
-  render():PaintedNode {
+  render(): PaintedNode {
     const car = new BlockCaret(this._type);
     car.label(this.getValue());
     return car.root() as PaintedNode;

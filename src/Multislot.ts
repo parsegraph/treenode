@@ -1,30 +1,23 @@
 import { Keystroke } from "parsegraph-input";
-import {
-  Alignment,
-  Direction,
-  NodePalette,
-  PreferredAxis,
-} from "parsegraph-direction";
+import { Alignment, Direction, PreferredAxis } from "parsegraph-direction";
 import BlockTreeNode from "./BlockTreeNode";
-import DefaultNodePalette from "../DefaultNodePalette";
+import { BlockPalette, DefaultBlockPalette } from "parsegraph-block";
 import AbstractTreeList from "./AbstractTreeList";
 import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
 
-import ActionCarousel from "../ActionCarousel";
-import DefaultNodeType from "../DefaultNodeType";
-import Node from "../Node";
+// import ActionCarousel from "../ActionCarousel";
 
 const MULTISLOT_SYMBOL = Symbol("Multislot");
 export default class Multislot extends AbstractTreeList {
   _lastRow: PaintedNode;
-  _palette: NodePalette<PaintedNode>;
+  _palette: DefaultBlockPalette;
   _callback: () => void;
 
   constructor(
     title: TreeNode,
     children: TreeNode[],
-    palette: NodePalette<PaintedNode>,
+    palette: BlockPalette,
     callback: () => void
   ) {
     super(title, children);
@@ -50,13 +43,16 @@ export default class Multislot extends AbstractTreeList {
   }
 
   makeBud(value: TreeNode): PaintedNode {
-    const bud = this._palette.spawn() as Node<DefaultNodeType>;
-    bud.setKeyListener((key: Keystroke) => {
-      console.log(key);
-      return true;
-    });
+    const bud = this._palette.spawn() as PaintedNode;
+    bud
+      .value()
+      .interact()
+      .setKeyListener((key: Keystroke) => {
+        console.log(key);
+        return true;
+      });
     bud.setLayoutPreference(PreferredAxis.VERTICAL);
-    const carousel = new ActionCarousel();
+    /* const carousel = new ActionCarousel();
     carousel.addAction("Delete", () => {
       console.log("Deleting this node");
       this.removeChild(value);
@@ -69,7 +65,7 @@ export default class Multislot extends AbstractTreeList {
       console.log("Insert node");
       this.insertBefore(this.createNew(), value);
     });
-    carousel.install(bud);
+    carousel.install(bud);*/
     return bud;
   }
 
@@ -79,14 +75,17 @@ export default class Multislot extends AbstractTreeList {
 
   makeFirstBud(value: TreeNode): PaintedNode {
     const bud = this.makeSmallBud();
-    bud.setClickListener(() => {
-      this.insertBefore(this.createNew(), value);
-    });
+    bud
+      .value()
+      .interact()
+      .setClickListener(() => {
+        this.insertBefore(this.createNew(), value);
+      });
     return bud;
   }
 
-  makeSmallBud(): Node<DefaultNodeType> {
-    const bud = this._palette.spawn("u") as Node<DefaultNodeType>;
+  makeSmallBud(): PaintedNode {
+    const bud = this._palette.spawn("u");
     /* bud.setBlockStyle({
       ...bud.blockStyle(),
       minWidth: BUD_RADIUS * 2,
@@ -101,9 +100,12 @@ export default class Multislot extends AbstractTreeList {
 
   makeNextBud(value: TreeNode): PaintedNode {
     const bud = this.makeSmallBud();
-    bud.setClickListener(() => {
-      this.insertAfter(this.createNew(), value);
-    });
+    bud
+      .value()
+      .interact()
+      .setClickListener(() => {
+        this.insertAfter(this.createNew(), value);
+      });
     return bud;
   }
 
