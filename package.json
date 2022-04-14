@@ -53,9 +53,9 @@
     "webgl-debug": "^2.0.1"
   },
   "dependencies": {
-    "parsegraph-artist": "^2.4.0",
+    "parsegraph-artist": "^3.4.0",
     "parsegraph-block": "^4.3.0",
-    "parsegraph-direction": "^2.0.10",
+    "parsegraph-direction": "^2.1.0",
     "parsegraph-input": "^1.6.5",
     "parsegraph-layout": "^1.8.1",
     "parsegraph-window": "^1.8.17"
