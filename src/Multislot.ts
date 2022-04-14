@@ -8,7 +8,6 @@ import TreeNode from "./TreeNode";
 
 // import ActionCarousel from "../ActionCarousel";
 
-const MULTISLOT_SYMBOL = Symbol("Multislot");
 export default class Multislot extends AbstractTreeList {
   _lastRow: PaintedNode;
   _palette: DefaultBlockPalette;
@@ -26,10 +25,6 @@ export default class Multislot extends AbstractTreeList {
     }
     this._palette = palette;
     this._callback = callback;
-  }
-
-  type() {
-    return MULTISLOT_SYMBOL;
   }
 
   invalidate(): void {

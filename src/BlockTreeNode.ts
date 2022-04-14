@@ -2,7 +2,6 @@ import TreeNode from "./TreeNode";
 import { DefaultBlockPalette } from "parsegraph-block";
 import { PaintedNode } from "parsegraph-artist";
 
-export const BLOCK_TREE_NODE = Symbol("BlockTreeNode");
 export default class BlockTreeNode extends TreeNode {
   _label: string;
   _nodeType: any;
@@ -16,9 +15,6 @@ export default class BlockTreeNode extends TreeNode {
     this._label = label;
     this._style = style;
     this.invalidate();
-  }
-  type() {
-    return BLOCK_TREE_NODE;
   }
 
   getType(): any {

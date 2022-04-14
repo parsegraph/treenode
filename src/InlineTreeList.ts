@@ -3,14 +3,9 @@ import TreeNode from "./TreeNode";
 import { PaintedNode } from "parsegraph-artist";
 import Direction, { SHRINK_SCALE } from "parsegraph-direction";
 
-export const INLINE_TREE_LIST_SYMBOL = Symbol("InlineTreeList");
 export default class InlineTreeList extends AbstractTreeList {
   constructor(title: TreeNode, children: TreeNode[]) {
     super(title, children);
-  }
-
-  type() {
-    return INLINE_TREE_LIST_SYMBOL;
   }
 
   connectInitialChild(root: PaintedNode, child: PaintedNode): PaintedNode {

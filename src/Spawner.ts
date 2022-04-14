@@ -7,7 +7,6 @@ import TreeNode from "./TreeNode";
 // import ActionCarousel from "../ActionCarousel";
 import { DefaultBlockPalette } from "parsegraph-block";
 
-const SPAWNER_SYMBOL = Symbol("Spawner");
 export default class Spawner extends AbstractTreeList {
   _lastRow: PaintedNode;
   _palette: DefaultBlockPalette;
@@ -15,10 +14,6 @@ export default class Spawner extends AbstractTreeList {
   constructor(children: TreeNode[]) {
     super(new BlockTreeNode("u"), children);
     this._palette = new DefaultBlockPalette();
-  }
-
-  type() {
-    return SPAWNER_SYMBOL;
   }
 
   connectSpecial(): PaintedNode {

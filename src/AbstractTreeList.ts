@@ -31,8 +31,6 @@ export default abstract class AbstractTreeList
     this.invalidate();
   }
 
-  abstract type(): Symbol;
-
   length(): number {
     return this._children.length;
   }

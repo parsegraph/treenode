@@ -11,7 +11,6 @@ import Direction, {
   SHRINK_SCALE,
 } from "parsegraph-direction";
 
-export const BASIC_TREE_LIST_SYMBOL = Symbol("BasicTreeList");
 export default class BasicTreeList extends AbstractTreeList {
   _lastRow: PaintedNode;
   _palette: BlockPalette;
@@ -38,10 +37,6 @@ export default class BasicTreeList extends AbstractTreeList {
     this._palette = palette;
     this._direction = Direction.FORWARD;
     this._align = Alignment.NONE;
-  }
-
-  type() {
-    return BASIC_TREE_LIST_SYMBOL;
   }
 
   setAlignment(align: Alignment) {

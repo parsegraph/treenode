@@ -12,7 +12,6 @@ export class NewlineTreeNode extends TreeNode {
 
 export const NEWLINE = new NewlineTreeNode();
 
-export const WRAPPING_TREE_LIST_SYMBOL = Symbol("WrappingTreeList");
 export default class WrappingTreeList extends AbstractTreeList {
   _palette: BlockPalette;
   _putInside: boolean;
@@ -32,10 +31,6 @@ export default class WrappingTreeList extends AbstractTreeList {
     }
     this._palette = palette;
     this._putFirstInside = this._putInside = putInside;
-  }
-
-  type() {
-    return WRAPPING_TREE_LIST_SYMBOL;
   }
 
   getNewline(): TreeNode {
