@@ -5196,7 +5196,7 @@ parsegraph-interact@^1.6.5:
     webpack "^5.52.0"
     webpack-cli "^4.8.0"
 
-parsegraph-layout@^1.13.1:
+parsegraph-layout@^1.13.1, parsegraph-layout@^1.8.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/parsegraph-layout/-/parsegraph-layout-1.13.1.tgz#221f74c46341ed9796ef00ba74cb63aea7b6e240"
   integrity sha512-ueWJeDg7DDAJgrNDJSnWcsFC/VrJMk+3PJN5yb4Elv3h2kJRC0GYyo+G1lxZWrAPRl01qrB3nO1kPQWgxQZO5w==
@@ -5207,7 +5207,7 @@ parsegraph-layout@^1.13.1:
     parsegraph-size "^1.6.0"
     parsegraph-timing "^1.4.16"
 
-parsegraph-layout@^1.8.0, parsegraph-layout@^1.8.1:
+parsegraph-layout@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/parsegraph-layout/-/parsegraph-layout-1.8.1.tgz#842e5618b4f1f107e4a573773943ded9f5f593b9"
   integrity sha512-bvlgYF3UW6jgXxCd8v8PG9szDp7zWEuoolBdQkm1fF4aLAFdQvThiQI0TbQgicJyYN6kT+ubhqkZp6WhEaa/LA==
