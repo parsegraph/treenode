@@ -1,7 +1,7 @@
 import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
-import {BlockPalette, DefaultBlockPalette} from 'parsegraph-block';
+import { BlockPalette, DefaultBlockPalette } from "parsegraph-block";
 import Direction, {
   PreferredAxis,
   turnPositive,

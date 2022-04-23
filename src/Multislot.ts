@@ -17,7 +17,7 @@ export default class Multislot extends AbstractTreeList {
     title: TreeNode,
     children: TreeNode[],
     palette: BlockPalette = new DefaultBlockPalette(),
-    callback: () => void = ()=>{}
+    callback: () => void = () => {}
   ) {
     super(title, children);
     if (!palette) {

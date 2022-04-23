@@ -6,8 +6,8 @@ import Multislot from "./Multislot";
 import Spawner from "./Spawner";
 import TreeLabel from "./TreeLabel";
 import TreeList from "./TreeList";
-import TreeNode, {ScheduleUpdateCallback} from "./TreeNode";
-import WrappingTreeList, {NewlineTreeNode, NEWLINE} from "./WrappingTreeList";
+import TreeNode, { ScheduleUpdateCallback } from "./TreeNode";
+import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
 
 export default TreeNode;
 export {
@@ -20,5 +20,7 @@ export {
   TreeLabel,
   TreeList,
   ScheduleUpdateCallback,
-  WrappingTreeList, NewlineTreeNode, NEWLINE
-}
+  WrappingTreeList,
+  NewlineTreeNode,
+  NEWLINE,
+};
