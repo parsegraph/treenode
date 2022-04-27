@@ -1,10 +1,10 @@
 import { Keystroke } from "parsegraph-input";
 import { Alignment, Direction, PreferredAxis } from "parsegraph-direction";
-import BlockTreeNode from "./BlockTreeNode";
 import { BlockPalette, DefaultBlockPalette } from "parsegraph-block";
-import AbstractTreeList from "./AbstractTreeList";
 import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
+import AbstractTreeList from "./AbstractTreeList";
+import BlockTreeNode from "./BlockTreeNode";
 
 // import ActionCarousel from "../ActionCarousel";
 

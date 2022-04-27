@@ -1,7 +1,7 @@
-import AbstractTreeList from "./AbstractTreeList";
-import TreeNode from "./TreeNode";
 import { PaintedNode } from "parsegraph-artist";
 import Direction, { SHRINK_SCALE } from "parsegraph-direction";
+import TreeNode from "./TreeNode";
+import AbstractTreeList from "./AbstractTreeList";
 
 export default class InlineTreeList extends AbstractTreeList {
   constructor(title: TreeNode, children: TreeNode[]) {

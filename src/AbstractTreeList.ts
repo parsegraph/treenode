@@ -1,6 +1,6 @@
+import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
 import TreeList from "./TreeList";
-import { PaintedNode } from "parsegraph-artist";
 
 export default abstract class AbstractTreeList
   extends TreeNode

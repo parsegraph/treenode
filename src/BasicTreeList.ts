@@ -1,6 +1,4 @@
 import { PaintedNode } from "parsegraph-artist";
-import TreeNode from "./TreeNode";
-import AbstractTreeList from "./AbstractTreeList";
 import { BlockPalette, DefaultBlockPalette } from "parsegraph-block";
 import Direction, {
   PreferredAxis,
@@ -10,6 +8,8 @@ import Direction, {
   Alignment,
   SHRINK_SCALE,
 } from "parsegraph-direction";
+import TreeNode from "./TreeNode";
+import AbstractTreeList from "./AbstractTreeList";
 
 export default class BasicTreeList extends AbstractTreeList {
   _lastRow: PaintedNode;

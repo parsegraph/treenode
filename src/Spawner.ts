@@ -1,11 +1,11 @@
 import { Keystroke } from "parsegraph-input";
 import { Alignment, Direction, PreferredAxis } from "parsegraph-direction";
-import BlockTreeNode from "./BlockTreeNode";
-import AbstractTreeList from "./AbstractTreeList";
 import { PaintedNode } from "parsegraph-artist";
-import TreeNode from "./TreeNode";
 // import ActionCarousel from "../ActionCarousel";
 import { DefaultBlockPalette } from "parsegraph-block";
+import TreeNode from "./TreeNode";
+import BlockTreeNode from "./BlockTreeNode";
+import AbstractTreeList from "./AbstractTreeList";
 
 export default class Spawner extends AbstractTreeList {
   _lastRow: PaintedNode;
