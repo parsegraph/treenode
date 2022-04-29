@@ -117,7 +117,7 @@ export default abstract class AbstractTreeList
     return null;
   }
 
-  render() {
+  render():PaintedNode {
     let lastChild: PaintedNode = null;
     this._children.forEach((child, i) => {
       const childRoot = child.root();
