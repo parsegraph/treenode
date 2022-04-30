@@ -52,12 +52,12 @@
     "parsegraph-log": "^1.7.3"
   },
   "dependencies": {
-    "parsegraph-artist": "^3.4.11",
-    "parsegraph-block": "^4.4.4",
+    "parsegraph-artist": "^3.4.15",
+    "parsegraph-block": "^4.4.6",
     "parsegraph-direction": "^2.1.0",
-    "parsegraph-graphpainter": "^2.4.7",
-    "parsegraph-input": "^2.0.3",
-    "parsegraph-projector": "^1.13.5",
+    "parsegraph-graphpainter": "^2.4.8",
+    "parsegraph-input": "^2.0.4",
+    "parsegraph-projector": "^1.13.7",
     "parsegraph-timing": "^1.4.16",
     "parsegraph-timingbelt": "^1.7.11"
   }
