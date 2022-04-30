@@ -1,6 +1,6 @@
 {
   "name": "parsegraph-treenode",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "treenode",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
