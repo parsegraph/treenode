@@ -4,11 +4,12 @@ import BlockTreeNode from "./BlockTreeNode";
 // import TreeLabel from "./TreeLabel";
 // import WrappingTreeList from "./WrappingTreeList";
 // import InlineTreeList from "./InlineTreeList";
-import { Viewport } from "parsegraph-graphpainter";
+import Navport, { renderFullscreen } from "parsegraph-viewport";
 import { Projection } from "parsegraph-projector";
 // import BasicTreeList from "./BasicTreeList";
 // import Multislot from "./Multislot";
 import Spawner from "./Spawner";
+import Color from "parsegraph-color";
 
 const buildGraph = () => {
   const list = new Spawner([]);
@@ -21,24 +22,7 @@ const buildGraph = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  const belt = new TimingBelt();
   const root = buildGraph();
-  const comp = new Viewport(root);
-  root.value().setOnScheduleUpdate(() => comp.scheduleUpdate());
-  // const freezer = new Freezer();
-  // root.value().getCache().freeze(freezer);
-
-  document.body.addEventListener("resize", () => {
-    belt.scheduleUpdate();
-  });
-
   const topElem = document.getElementById("demo");
-
-  const projector = new BasicProjector();
-  projector.glProvider().container();
-  projector.overlay();
-  topElem.appendChild(projector.container());
-  projector.container().style.position = "absolute";
-  const proj = new Projection(projector, comp);
-  belt.addRenderable(proj);
+  renderFullscreen(topElem, root, new Color(0, 0, 0, 1));
 });

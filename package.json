@@ -59,6 +59,7 @@
     "parsegraph-input": "^2.0.4",
     "parsegraph-projector": "^1.14.0",
     "parsegraph-timing": "^1.4.16",
-    "parsegraph-timingbelt": "^1.7.11"
+    "parsegraph-timingbelt": "^1.7.11",
+    "parsegraph-viewport": "^2.1.7"
   }
 }
