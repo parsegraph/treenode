@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // const freezer = new Freezer();
   // root.value().getCache().freeze(freezer);
 
-  window.addEventListener("resize", () => {
+  document.body.addEventListener("resize", () => {
     belt.scheduleUpdate();
   });
 
