@@ -4173,6 +4173,17 @@ parsegraph-projector@^1.13.10:
     parsegraph-timing "^1.4.16"
     parsegraph-timingbelt "^1.7.11"
 
+parsegraph-projector@^1.13.11:
+  version "1.13.11"
+  resolved "https://registry.yarnpkg.com/parsegraph-projector/-/parsegraph-projector-1.13.11.tgz#acf2a2c1f24c19b454b284c515af7e85be863357"
+  integrity sha512-ss11fx63bj4/W49OnVDjphUIyKhpF+v0B95XYQuSvA3iPHt4gIzcY6MNkdx2zW4M6foulU49JEKyFVz/hi4kHQ==
+  dependencies:
+    parsegraph-compileprogram "^2.2.15"
+    parsegraph-matrix "^1.4.12"
+    parsegraph-rect "^1.5.1"
+    parsegraph-timing "^1.4.16"
+    parsegraph-timingbelt "^1.7.11"
+
 parsegraph-projector@^1.13.9:
   version "1.13.9"
   resolved "https://registry.yarnpkg.com/parsegraph-projector/-/parsegraph-projector-1.13.9.tgz#e4d5d6da909113c9f9e7228b82877240607f848c"
