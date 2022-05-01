@@ -55,7 +55,6 @@
     "parsegraph-artist": "^3.4.22",
     "parsegraph-block": "^4.4.15",
     "parsegraph-direction": "^2.1.0",
-    "parsegraph-graphpainter": "^2.5.0",
     "parsegraph-input": "^2.0.4",
     "parsegraph-projector": "^1.14.0",
     "parsegraph-timing": "^1.4.16",
