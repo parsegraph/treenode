@@ -3926,7 +3926,7 @@ parsegraph-camera@^1.4.18:
     parsegraph-matrix "^1.4.12"
     parsegraph-rect "^1.5.1"
 
-parsegraph-carousel@^2.3.26:
+parsegraph-carousel@^2.3.27:
   version "2.3.27"
   resolved "https://registry.yarnpkg.com/parsegraph-carousel/-/parsegraph-carousel-2.3.27.tgz#45ffdb3872699601b12f524177f3a8be741b2a2b"
   integrity sha512-vQ7MXNxZklKoYMQnq0BAXvSzBppE8V+sLfBQGoAexsxIlylfmsjmaIICVOekDM+bMlC84E2kCGAzxKWazpSoEw==
@@ -4006,7 +4006,7 @@ parsegraph-gettimeinmillis@^1.4.6:
   resolved "https://registry.yarnpkg.com/parsegraph-gettimeinmillis/-/parsegraph-gettimeinmillis-1.4.6.tgz#edb341bf5b2faaaf918e8c0ba31f63d643afe942"
   integrity sha512-ARG/HOV6rb8R8U6tLgJ5l8IYL21DoKIki7Ktrm4+kckKyLBLBLGFY0HH5fzzcIue9bhbjI5Kj0pUCGazSIUj5w==
 
-parsegraph-graphpainter@^2.5.0, parsegraph-graphpainter@^2.5.3:
+parsegraph-graphpainter@^2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/parsegraph-graphpainter/-/parsegraph-graphpainter-2.5.3.tgz#d90f9747aae4ae466162084403ce9103f56ccae1"
   integrity sha512-9YN3y9xfMEdGNKcfPDvAm3yQTmqWmGnYHsdXWt/66MxsJ8KSZgxHhgVEjrqULis/SR8mnce3Bd94Fq1LfTWWWQ==
@@ -4175,22 +4175,22 @@ parsegraph-toradians@^1.4.9:
   resolved "https://registry.yarnpkg.com/parsegraph-toradians/-/parsegraph-toradians-1.4.9.tgz#4ac54c576c641f16cac432dd7db5ed807ebc3d1e"
   integrity sha512-oeFTXYNXQiYqvKQ8UOOwnGlT6bLzsSLsIMsWUiGmSEBPsn6//UO/pukq79G2S+CVsC5enswbfwnrEzaTpwpTzg==
 
-parsegraph-viewport@^2.1.10:
-  version "2.1.10"
-  resolved "https://registry.yarnpkg.com/parsegraph-viewport/-/parsegraph-viewport-2.1.10.tgz#14600ebe58999d6da79feedee8327e9ed36b1c83"
-  integrity sha512-PG2LetQzKBUf+z+lYlLPsDfKJg9gFeEuZMdHgLFoYPfHccSArRrnIcrau1b997GOE6/wd19YMB4HTwygnss83g==
+parsegraph-viewport@^2.1.11:
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/parsegraph-viewport/-/parsegraph-viewport-2.1.11.tgz#f21af64fe4fad038ca1a864a6b65ae32e1ae7f67"
+  integrity sha512-N/lvQ7pDcR7i+AWPKEvHaaIj0yLDNTwX8Nwdv4zuvPT9P+oxZel2thvkCrLTGGTshTOkAwczfLShSnQUEzA+7Q==
   dependencies:
     parsegraph-animatedspotlight "^2.0.36"
     parsegraph-animator "^1.5.8"
     parsegraph-artist "^3.4.22"
     parsegraph-block "^4.4.15"
     parsegraph-camera "^1.4.18"
-    parsegraph-carousel "^2.3.26"
+    parsegraph-carousel "^2.3.27"
     parsegraph-color "^1.4.7"
     parsegraph-compileprogram "^2.2.15"
     parsegraph-direction "^2.1.0"
     parsegraph-fuzzyequals "^1.4.9"
-    parsegraph-graphpainter "^2.5.0"
+    parsegraph-graphpainter "^2.5.3"
     parsegraph-input "^2.0.4"
     parsegraph-lerp "^1.5.9"
     parsegraph-matrix "^1.4.12"
