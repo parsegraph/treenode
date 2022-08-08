@@ -53,14 +53,14 @@
     "parsegraph-log": "^1.7.3"
   },
   "dependencies": {
-    "parsegraph-artist": "^3.4.22",
-    "parsegraph-block": "^4.4.15",
+    "parsegraph-artist": "^3.4.26",
+    "parsegraph-block": "^4.4.19",
     "parsegraph-color": "^1.4.7",
     "parsegraph-direction": "^2.1.0",
-    "parsegraph-input": "^2.0.4",
+    "parsegraph-input": "^2.0.6",
     "parsegraph-projector": "^1.14.0",
     "parsegraph-timing": "^1.4.16",
     "parsegraph-timingbelt": "^1.7.11",
-    "parsegraph-viewport": "^2.1.11"
+    "parsegraph-viewport": "^2.7.1"
   }
 }
