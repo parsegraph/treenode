@@ -1,6 +1,7 @@
 DIST_NAME = treenode
 
 SCRIPT_FILES = \
+	src/FunctionalTreeNode.ts \
 	src/Multislot.ts \
 	src/TreeNode.ts \
 	src/InlineTreeList.ts \
