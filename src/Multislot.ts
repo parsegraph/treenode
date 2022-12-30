@@ -7,6 +7,7 @@ import AbstractTreeList from "./AbstractTreeList";
 import BlockTreeNode from "./BlockTreeNode";
 
 // import ActionCarousel from "../ActionCarousel";
+import Navport from "parsegraph-viewport";
 
 export default class Multislot extends AbstractTreeList {
   _lastRow: PaintedNode;
@@ -14,12 +15,13 @@ export default class Multislot extends AbstractTreeList {
   _callback: () => void;
 
   constructor(
+    nav: Navport,
     title: TreeNode,
     children: TreeNode[],
     palette: BlockPalette = new DefaultBlockPalette(),
     callback: () => void = () => {}
   ) {
-    super(title, children);
+    super(nav, title, children);
     if (!palette) {
       throw new Error("Palette must be given");
     }

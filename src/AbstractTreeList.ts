@@ -1,6 +1,8 @@
 import { PaintedNode } from "parsegraph-artist";
+import Navport from "parsegraph-viewport";
 import TreeNode from "./TreeNode";
 import TreeList from "./TreeList";
+import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
 
 export default abstract class AbstractTreeList
   extends TreeNode
@@ -20,8 +22,8 @@ export default abstract class AbstractTreeList
     childValue: TreeNode
   ): PaintedNode;
 
-  constructor(title: TreeNode, children: TreeNode[]) {
-    super();
+  constructor(nav: Navport, title: TreeNode, children: TreeNode[]) {
+    super(nav);
     if (children) {
       this._children = [...children];
     } else {
@@ -44,7 +46,17 @@ export default abstract class AbstractTreeList
     }
   }
 
-  appendChild(child: TreeNode) {
+  makeFuncTreeNode(creator: TreeNodeCreator): TreeNode {
+    const child = new FunctionalTreeNode(this.nav());
+    child.setCreator(creator);
+    child.setOnScheduleUpdate(() => this.invalidate());
+    return child;
+  }
+
+  appendChild(child: TreeNode | TreeNodeCreator) {
+    if (typeof child === "function") {
+      child = this.makeFuncTreeNode(child);
+    }
     this.checkChild(child);
     this._children.push(child);
     child.setOnScheduleUpdate(() => this.invalidate());
@@ -60,7 +72,7 @@ export default abstract class AbstractTreeList
     return -1;
   }
 
-  insertBefore(child: TreeNode, ref: TreeNode): boolean {
+  insertBefore(child: TreeNode | TreeNodeCreator, ref: TreeNode): boolean {
     if (ref == null) {
       if (this.length() > 0) {
         return this.insertBefore(child, this.childAt(0));
@@ -68,20 +80,28 @@ export default abstract class AbstractTreeList
       this.appendChild(child);
       return true;
     }
+    if (typeof child === "function") {
+      child = this.makeFuncTreeNode(child);
+    }
     this.checkChild(child);
     const idx = this.indexOf(ref);
     if (idx >= 0) {
       this._children.splice(idx, 0, child);
       child.setOnScheduleUpdate(() => this.invalidate());
       this.invalidate();
+    } else {
+      throw new Error("Failed to find ref");
     }
     return idx >= 0;
   }
 
-  insertAfter(child: TreeNode, ref: TreeNode): boolean {
+  insertAfter(child: TreeNode | TreeNodeCreator, ref: TreeNode): boolean {
     if (ref == null) {
       this.appendChild(child);
       return true;
+    }
+    if (typeof child === "function") {
+      child = this.makeFuncTreeNode(child);
     }
     this.checkChild(child);
     const idx = this.indexOf(ref);

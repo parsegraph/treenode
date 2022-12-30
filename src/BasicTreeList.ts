@@ -1,3 +1,4 @@
+import Navport from "parsegraph-viewport";
 import { PaintedNode } from "parsegraph-artist";
 import { BlockPalette, DefaultBlockPalette } from "parsegraph-block";
 import Direction, {
@@ -26,11 +27,12 @@ export default class BasicTreeList extends AbstractTreeList {
    * @param {BlockPalette} palette The palette to use to construct joining buds.
    */
   constructor(
+    nav: Navport,
     title: TreeNode,
     children: TreeNode[],
     palette: BlockPalette = new DefaultBlockPalette()
   ) {
-    super(title, children);
+    super(nav, title, children);
     if (!palette) {
       throw new Error("Palette must be given");
     }

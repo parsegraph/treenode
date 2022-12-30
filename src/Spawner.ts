@@ -1,7 +1,8 @@
 import { Keystroke } from "parsegraph-input";
+import Navport from "parsegraph-viewport";
 import { Alignment, Direction, PreferredAxis } from "parsegraph-direction";
 import { PaintedNode } from "parsegraph-artist";
-// import ActionCarousel from "../ActionCarousel";
+import { ActionCarousel } from "parsegraph-viewport";
 import { DefaultBlockPalette } from "parsegraph-block";
 import TreeNode from "./TreeNode";
 import BlockTreeNode from "./BlockTreeNode";
@@ -11,13 +12,17 @@ export default class Spawner extends AbstractTreeList {
   _lastRow: PaintedNode;
   _palette: DefaultBlockPalette;
 
-  constructor(children: TreeNode[]) {
-    super(new BlockTreeNode("u"), children);
+  constructor(nav: Navport, children: TreeNode[]) {
+    super(nav, new BlockTreeNode("u"), children);
     this._palette = new DefaultBlockPalette();
   }
 
   connectSpecial(): PaintedNode {
     return this._lastRow;
+  }
+
+  palette() {
+    return this._palette;
   }
 
   makeBud(value: TreeNode): PaintedNode {
@@ -29,22 +34,25 @@ export default class Spawner extends AbstractTreeList {
         return true;
       });
     bud.setLayoutPreference(PreferredAxis.VERTICAL);
-    console.log(value);
-    /* const carousel = new ActionCarousel();
-    carousel.addAction("Delete", () => {
+    this.commandsFor(value).install(bud);
+    return bud;
+  }
+
+  commandsFor(value: TreeNode) {
+    const ac = new ActionCarousel(this.nav().carousel(), this.palette());
+    ac.addAction("Delete", () => {
       console.log("Deleting this node");
       this.removeChild(value);
     });
-    carousel.addAction("Append", () => {
+    ac.addAction("Append", () => {
       console.log("Adding node");
       this.insertAfter(this.createNew(), value);
     });
-    carousel.addAction("Insert", () => {
+    ac.addAction("Insert", () => {
       console.log("Insert node");
       this.insertBefore(this.createNew(), value);
     });
-    carousel.install(bud);*/
-    return bud;
+    return ac;
   }
 
   installRootBud(root: PaintedNode, value: TreeNode) {
@@ -55,23 +63,7 @@ export default class Spawner extends AbstractTreeList {
         return true;
       });
     root.setLayoutPreference(PreferredAxis.VERTICAL);
-    console.log(value);
-    /* const carousel = new ActionCarousel();
-    carousel.addAction("Delete", () => {
-      console.log("Deleting this node");
-      this.removeChild(value);
-    });
-    if (this._builder) {
-      carousel.addAction("Append", () => {
-        console.log("Adding node");
-        this.insertAfter(this.createNew(), value);
-      });
-      carousel.addAction("Insert", () => {
-        console.log("Insert node");
-        this.insertBefore(this.createNew(), value);
-      });
-    }
-    carousel.install(root as Node<DefaultNodeType>);*/
+    this.commandsFor(value).install(root);
   }
 
   _builder: () => TreeNode;
@@ -84,7 +76,9 @@ export default class Spawner extends AbstractTreeList {
     if (this._builder) {
       return this._builder();
     }
-    return new BlockTreeNode("b", "Added");
+    const child = new BlockTreeNode("b", "Added");
+    child.setOnScheduleUpdate(() => this.invalidate());
+    return child;
   }
 
   makeFirstBud(value: TreeNode): PaintedNode {

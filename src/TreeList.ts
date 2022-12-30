@@ -1,6 +1,8 @@
 import TreeNode from "./TreeNode";
+import Navport from "parsegraph-viewport";
 
 export default interface TreeList extends TreeNode {
+  nav(): Navport;
   clear(): void;
   length(): number;
   childAt(index: number): TreeNode;

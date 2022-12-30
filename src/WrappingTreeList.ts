@@ -1,3 +1,4 @@
+import Navport from "parsegraph-viewport";
 import { PaintedNode } from "parsegraph-artist";
 import Direction, { SHRINK_SCALE } from "parsegraph-direction";
 import { DefaultBlockPalette, BlockPalette } from "parsegraph-block";
@@ -5,6 +6,10 @@ import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 
 export class NewlineTreeNode extends TreeNode {
+  constructor() {
+    super(null);
+  }
+
   render(): PaintedNode {
     return null;
   }
@@ -20,12 +25,13 @@ export default class WrappingTreeList extends AbstractTreeList {
   _shrinkNext: boolean;
 
   constructor(
+    nav: Navport,
     title: TreeNode,
     children: TreeNode[],
     palette: BlockPalette = new DefaultBlockPalette(),
     putInside: boolean = true
   ) {
-    super(title, children);
+    super(nav, title, children);
     if (!palette) {
       throw new Error("Palette must be given");
     }

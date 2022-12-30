@@ -9,7 +9,7 @@ export default class BlockTreeNode extends TreeNode {
   _style: any;
 
   constructor(nodeType?: any, label?: string, style?: any) {
-    super();
+    super(null);
     this._palette = new DefaultBlockPalette();
     this._nodeType = nodeType;
     this._label = label;

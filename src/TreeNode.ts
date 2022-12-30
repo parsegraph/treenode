@@ -1,4 +1,5 @@
 import { PaintedNode } from "parsegraph-artist";
+import Navport from "parsegraph-viewport";
 
 export type ScheduleUpdateCallback = () => void;
 export default abstract class TreeNode {
@@ -6,7 +7,19 @@ export default abstract class TreeNode {
   _needsUpdate: boolean;
   _onScheduleUpdate: ScheduleUpdateCallback;
 
-  constructor() {
+  _nav: Navport;
+
+  nav() {
+    return this._nav;
+  }
+
+  setNav(nav: Navport) {
+    this._nav = nav;
+    this.invalidate();
+  }
+
+  constructor(nav: Navport) {
+    this._nav = nav;
     this._needsUpdate = true;
     this._onScheduleUpdate = null;
     this._root = null;

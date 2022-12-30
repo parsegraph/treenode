@@ -9,7 +9,7 @@ export default class TreeLabel extends TreeNode {
   _palette: DefaultBlockPalette;
 
   constructor(type?: any, label?: string) {
-    super();
+    super(null);
     this._palette = new DefaultBlockPalette();
     this._type = type || "b";
     this._label = label || "";

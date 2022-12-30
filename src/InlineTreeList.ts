@@ -1,11 +1,12 @@
+import Navport from "parsegraph-viewport";
 import { PaintedNode } from "parsegraph-artist";
 import Direction, { SHRINK_SCALE } from "parsegraph-direction";
 import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 
 export default class InlineTreeList extends AbstractTreeList {
-  constructor(title: TreeNode, children: TreeNode[]) {
-    super(title, children);
+  constructor(nav: Navport, title: TreeNode, children: TreeNode[]) {
+    super(nav, title, children);
   }
 
   connectInitialChild(root: PaintedNode, child: PaintedNode): PaintedNode {
