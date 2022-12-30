@@ -37,6 +37,8 @@
     "jest-environment-jsdom": "^28.1.3",
     "jsdom": "^20.0.0",
     "jsdom-global": "^3.0.2",
+    "parsegraph-checkglerror": "^1.5.5",
+    "parsegraph-log": "^1.7.5",
     "prettier": "^2.7.1",
     "raw-loader": "^4.0.2",
     "source-map-loader": "^4.0.0",
@@ -49,18 +51,10 @@
     "webpack-cli": "^4.10.0"
   },
   "peerDependencies": {
-    "parsegraph-checkglerror": "^1.5.3",
-    "parsegraph-log": "^1.7.3"
+    "parsegraph-checkglerror": "^1.5.5",
+    "parsegraph-log": "^1.7.5"
   },
   "dependencies": {
-    "parsegraph-artist": "^3.4.26",
-    "parsegraph-block": "^4.4.19",
-    "parsegraph-color": "^1.4.7",
-    "parsegraph-direction": "^2.1.0",
-    "parsegraph-input": "^2.0.6",
-    "parsegraph-projector": "^1.14.0",
-    "parsegraph-timing": "^1.4.16",
-    "parsegraph-timingbelt": "^1.7.11",
-    "parsegraph-viewport": "^2.7.1"
+    "parsegraph-viewport": "^2.8.13"
   }
 }
