@@ -17,6 +17,8 @@ export default class FunctionalTreeNode extends TreeNode {
   }
 
   render(): PaintedNode {
-    return this._creator();
+    const c = this._creator();
+    console.log("FTN", c.state().id());
+    return c;
   }
 }

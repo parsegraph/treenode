@@ -1,4 +1,5 @@
 import { PaintedNode } from "parsegraph-artist";
+import Direction from 'parsegraph-direction';
 import Navport from "parsegraph-viewport";
 import TreeNode from "./TreeNode";
 import TreeList from "./TreeList";
@@ -137,7 +138,17 @@ export default abstract class AbstractTreeList
     return null;
   }
 
+  clearNode(rootNode: PaintedNode):void {
+    rootNode.disconnectNode(Direction.DOWNWARD);
+    rootNode.disconnectNode(Direction.BACKWARD);
+    rootNode.disconnectNode(Direction.FORWARD);
+  }
+
   render(): PaintedNode {
+    if (this._children.length === 0) {
+      this.clearNode(this._title.root());
+      return this._title.root();
+    }
     let lastChild: PaintedNode = null;
     this._children.forEach((child, i) => {
       const childRoot = child.root();

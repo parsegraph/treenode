@@ -133,6 +133,7 @@ export default class Spawner extends AbstractTreeList {
     const nextBud = this.makeNextBud(childValue);
     bud.connectNode(Direction.FORWARD, nextBud);
     this._lastRow = nextBud;
+    console.log(this._lastRow.state().id());
     return this._lastRow;
   }
 
@@ -147,6 +148,7 @@ export default class Spawner extends AbstractTreeList {
     const nextBud = this.makeNextBud(childValue);
     bud.connectNode(Direction.FORWARD, nextBud);
     this._lastRow = nextBud;
+    console.log(this._lastRow);
     return this._lastRow;
   }
 
