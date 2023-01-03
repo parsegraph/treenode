@@ -10,6 +10,8 @@ import {AbstractScene} from 'parsegraph-scene';
 import TimingBelt from 'parsegraph-timingbelt';
 import {showInCamera} from 'parsegraph-showincamera';
 
+import WrappingTreeList from './WrappingTreeList';
+
 const makeProtoBlock = (nav: Navport, list: Spawner, text: any) => {
   const ftn = new FunctionalTreeNode(nav);
   let state: TreeNode = null;
@@ -43,12 +45,24 @@ const makeProtoBlock = (nav: Navport, list: Spawner, text: any) => {
       ac.uninstall();
       ftn.invalidate();
     });
+    ac.addAction("Create Wrapping Tree List", () => {
+      root.disconnectNode();
+      state = makeWrappingTreeList(nav);
+      state.setOnScheduleUpdate(() => ftn.invalidate());
+      ac.uninstall();
+      ftn.invalidate();
+    });
 
     ac.install(car.root());
     return car.root();
   });
   return ftn;
 };
+
+const makeWrappingTreeList = (nav: Navport) => {
+  const list = new WrappingTreeList(nav, new BlockTreeNode("b", "WrappingTreeList"), []);
+  return list;
+}
 
 const makeBlock = (nav: Navport, list: Spawner, text: any) => {
   const block = new FunctionalTreeNode(nav);
