@@ -6,6 +6,7 @@ SCRIPT_FILES = \
 	src/TreeNode.ts \
 	src/InlineTreeList.ts \
 	src/index.ts \
+	src/wrapping.ts \
 	src/BlockTreeNode.ts \
 	src/BasicTreeList.ts \
 	src/TreeLabel.ts \
