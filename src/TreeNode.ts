@@ -1,5 +1,6 @@
 import { PaintedNode } from "parsegraph-artist";
 import Navport from "parsegraph-viewport";
+import { logEnterc, logLeave } from "parsegraph-log";
 
 export type ScheduleUpdateCallback = () => void;
 export default abstract class TreeNode {
@@ -39,10 +40,12 @@ export default abstract class TreeNode {
     if (this.needsUpdate()) {
       return;
     }
+    logEnterc("Schedule updates", "Tree node needs update");
     this._needsUpdate = true;
     if (this._onScheduleUpdate) {
       this._onScheduleUpdate();
     }
+    logLeave();
   }
 
   needsUpdate(): boolean {

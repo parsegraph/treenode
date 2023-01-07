@@ -1,9 +1,10 @@
 import { PaintedNode } from "parsegraph-artist";
-import Direction from 'parsegraph-direction';
+import Direction from "parsegraph-direction";
 import Navport from "parsegraph-viewport";
 import TreeNode from "./TreeNode";
 import TreeList from "./TreeList";
 import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
+import { logEnterc, logLeave, logc, logEnter } from "parsegraph-log";
 
 export default abstract class AbstractTreeList
   extends TreeNode
@@ -55,6 +56,7 @@ export default abstract class AbstractTreeList
   }
 
   appendChild(child: TreeNode | TreeNodeCreator) {
+    logEnterc("Tree operations", "Appending node");
     if (typeof child === "function") {
       child = this.makeFuncTreeNode(child);
     }
@@ -62,6 +64,7 @@ export default abstract class AbstractTreeList
     this._children.push(child);
     child.setOnScheduleUpdate(() => this.invalidate());
     this.invalidate();
+    logLeave();
   }
 
   indexOf(child: TreeNode) {
@@ -81,6 +84,7 @@ export default abstract class AbstractTreeList
       this.appendChild(child);
       return true;
     }
+    logEnterc("Tree operations", "Inserting node before ref");
     if (typeof child === "function") {
       child = this.makeFuncTreeNode(child);
     }
@@ -93,6 +97,7 @@ export default abstract class AbstractTreeList
     } else {
       throw new Error("Failed to find ref");
     }
+    logLeave();
     return idx >= 0;
   }
 
@@ -116,6 +121,7 @@ export default abstract class AbstractTreeList
   removeChild(child: TreeNode) {
     const idx = this.indexOf(child);
     if (idx >= 0) {
+      logc("Tree operations", "Removing child node");
       this._children.splice(idx, 1);
       child.setOnScheduleUpdate(null);
       this.invalidate();
@@ -134,29 +140,46 @@ export default abstract class AbstractTreeList
   }
 
   connectSpecial(childValue: TreeNode): PaintedNode {
-    console.log(`${childValue}, child of ${this}, did not render a value`);
+    logc(
+      "Tree rendering",
+      `${childValue}, child of ${this}, did not render a value`
+    );
     return null;
   }
 
-  clearNode(rootNode: PaintedNode):void {
+  clearNode(rootNode: PaintedNode): void {
     rootNode.disconnectNode(Direction.DOWNWARD);
     rootNode.disconnectNode(Direction.BACKWARD);
     rootNode.disconnectNode(Direction.FORWARD);
   }
 
-  render(): PaintedNode {
-    if (this._children.length === 0) {
-      this.clearNode(this._title.root());
-      return this._title.root();
+  title(): TreeNode {
+    return this._title;
+  }
+
+  setTitle(title: TreeNode) {
+    if (this._title === title) {
+      return;
     }
+    this._title = title;
+    this.invalidate();
+  }
+
+  render(): PaintedNode {
+    logc(
+      "Tree rendering",
+      "Rendering tree list of size " + this._children.length
+    );
+    this.clearNode(this.title().root());
     let lastChild: PaintedNode = null;
     this._children.forEach((child, i) => {
       const childRoot = child.root();
+      console.log("CR", childRoot);
       if (!childRoot) {
         lastChild = this.connectSpecial(child) || lastChild;
       } else if (i == 0) {
         lastChild = this.connectInitialChild(
-          this._title.root(),
+          this.title().root(),
           childRoot,
           child
         );
@@ -164,6 +187,6 @@ export default abstract class AbstractTreeList
         lastChild = this.connectChild(lastChild, childRoot, child);
       }
     });
-    return this._title.root();
+    return this.title().root();
   }
 }
