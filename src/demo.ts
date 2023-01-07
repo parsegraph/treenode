@@ -5,10 +5,10 @@ import TreeNode from "./TreeNode";
 import FunctionalTreeNode from "./FunctionalTreeNode";
 import { ActionCarousel } from "parsegraph-viewport";
 import BlockTreeNode from "./BlockTreeNode";
-import {BasicProjector} from 'parsegraph-projector';
-import {AbstractScene} from 'parsegraph-scene';
-import TimingBelt from 'parsegraph-timingbelt';
-import {showInCamera} from 'parsegraph-showincamera';
+import { BasicProjector } from "parsegraph-projector";
+import { AbstractScene } from "parsegraph-scene";
+import TimingBelt from "parsegraph-timingbelt";
+import { showInCamera } from "parsegraph-showincamera";
 
 const makeProtoBlock = (nav: Navport, list: Spawner, text: any) => {
   const ftn = new FunctionalTreeNode(nav);
@@ -71,7 +71,7 @@ const buildGraph = (nav: Navport): TreeNode => {
   const list = new Spawner(nav, []);
   list.setBuilder(() => makeProtoBlock(nav, list, list.length()));
   list.setOnScheduleUpdate(() => nav.scheduleRepaint());
-  /*for (let i = 0; i < 1; ++i) {
+  /* for (let i = 0; i < 1; ++i) {
     list.appendChild(makeProtoBlock(nav, list, i + 1));
   }*/
   return list;
@@ -79,7 +79,7 @@ const buildGraph = (nav: Navport): TreeNode => {
 
 class Overlay extends AbstractScene {
   _nav: Navport;
-  constructor(proj: BasicProjector, nav:Navport) {
+  constructor(proj: BasicProjector, nav: Navport) {
     super(proj);
     this._nav = nav;
   }
@@ -87,21 +87,26 @@ class Overlay extends AbstractScene {
   render() {
     const ctx = this.projector().overlay();
     ctx.resetTransform();
-    const fontSize = Math.round(20/window.visualViewport.scale);
+    const fontSize = Math.round(20 / window.visualViewport.scale);
     ctx.font = `${fontSize}px sans-serif`;
-    ctx.textBaseline = 'top';
-    ctx.fillStyle = 'black';
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "black";
     const proj = this.projector();
     const lineHeight = fontSize * 1.1;
-    ctx.fillText(`proj=${proj.width()}x${proj.height()} container=${proj.container().clientWidth}x${proj.container().clientHeight}`, 0, 0);
+    ctx.fillText(
+      `proj=${proj.width()}x${proj.height()} container=${
+        proj.container().clientWidth
+      }x${proj.container().clientHeight}`,
+      0,
+      0
+    );
     const cam = this._nav.camera();
     ctx.fillText(`cam x=${cam.x()}x${cam.y()}`, 0, lineHeight);
-    ctx.fillText(`cam scale=${cam.scale()}`, 0, 2*lineHeight);
-    ctx.fillText(`doc=${document.body.clientWidth}`, 0, 3*lineHeight);
-    ctx.fillText(`vvp scale=${window.visualViewport.scale}`, 0, 4*lineHeight);
+    ctx.fillText(`cam scale=${cam.scale()}`, 0, 2 * lineHeight);
+    ctx.fillText(`doc=${document.body.clientWidth}`, 0, 3 * lineHeight);
+    ctx.fillText(`vvp scale=${window.visualViewport.scale}`, 0, 4 * lineHeight);
     return false;
   }
-
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -113,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("REPAINT");
   });
   nav.setRoot(rootNode.root());
-  /*nav.carousel().setCarouselSize(
+  /* nav.carousel().setCarouselSize(
     nav.carousel()._carouselSize /
     window.visualViewport.scale
   );*/
@@ -123,8 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     nav.showInCamera(rootNode.root());
     const dpi = window.visualViewport.scale;
-    nav.camera().setScale(1/dpi);
-    nav.camera().setOrigin(dpi*proj.width()/2, dpi*proj.height()/2);
+    nav.camera().setScale(1 / dpi);
+    nav.camera().setOrigin((dpi * proj.width()) / 2, (dpi * proj.height()) / 2);
     nav.scheduleRender();
   }, 100);
   render(document.getElementById("demo"), nav, proj, belt);
