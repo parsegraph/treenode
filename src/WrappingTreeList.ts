@@ -59,9 +59,6 @@ export default class WrappingTreeList extends AbstractTreeList {
   }
 
   connectSpecial(child: TreeNode): PaintedNode {
-    if (!this.isNewline(child)) {
-      return super.connectSpecial(child);
-    }
     const bud = this._palette.spawn("u") as PaintedNode;
     this._lastRow.connectNode(Direction.DOWNWARD, bud);
     this.nodeConnected(child, bud);
@@ -96,7 +93,7 @@ export default class WrappingTreeList extends AbstractTreeList {
     lastChild.connectNode(dir, child);
     this.nodeConnected(childValue, child);
     if (this._putInside) {
-      child.crease();
+      // child.crease();
     }
     if (this._shrinkNext) {
       this._lastRow.nodeAt(dir).state().setScale(SHRINK_SCALE);
