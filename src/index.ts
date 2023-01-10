@@ -8,6 +8,7 @@ import InlineTreeList from "./InlineTreeList";
 import Multislot from "./Multislot";
 import Spawner from "./Spawner";
 import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
+import FunctionalTreeNode, {TreeNodeCreator} from './FunctionalTreeNode';
 
 export default TreeNode;
 export {
@@ -22,5 +23,7 @@ export {
   ScheduleUpdateCallback,
   WrappingTreeList,
   NewlineTreeNode,
+  FunctionalTreeNode,
+  TreeNodeCreator,
   NEWLINE,
 };
