@@ -12,6 +12,7 @@ SCRIPT_FILES = \
 	src/TreeLabel.ts \
 	src/Spawner.ts \
 	src/AbstractTreeList.ts \
+	src/basictree.ts \
 	src/TreeList.ts \
 	src/WrappingTreeList.ts \
 	src/demo.ts \
