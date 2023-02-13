@@ -37,8 +37,8 @@
     "jest-environment-jsdom": "^29.4.1",
     "jsdom": "^21.1.0",
     "jsdom-global": "^3.0.2",
-    "parsegraph-checkglerror": "^1.5.7",
-    "parsegraph-log": "^1.9.2",
+    "parsegraph-checkglerror": "^1.5.8",
+    "parsegraph-log": "^1.9.3",
     "prettier": "^2.8.3",
     "raw-loader": "^4.0.2",
     "source-map-loader": "^4.0.1",
@@ -51,19 +51,19 @@
     "webpack-cli": "^5.0.1"
   },
   "peerDependencies": {
-    "parsegraph-checkglerror": "^1.5.7",
-    "parsegraph-log": "^1.9.2"
+    "parsegraph-checkglerror": "^1.5.8",
+    "parsegraph-log": "^1.9.3"
   },
   "dependencies": {
-    "parsegraph-artist": "^3.4.65",
-    "parsegraph-block": "^4.6.23",
-    "parsegraph-direction": "^2.2.4",
-    "parsegraph-input": "^2.0.10",
-    "parsegraph-projector": "^1.14.10",
-    "parsegraph-scene": "^2.3.32",
-    "parsegraph-showincamera": "^1.7.15",
-    "parsegraph-timing": "^1.4.19",
-    "parsegraph-timingbelt": "^1.8.3",
-    "parsegraph-viewport": "^2.9.14"
+    "parsegraph-artist": "^3.4.67",
+    "parsegraph-block": "^4.6.25",
+    "parsegraph-direction": "^2.3.0",
+    "parsegraph-input": "^2.0.12",
+    "parsegraph-projector": "^1.14.12",
+    "parsegraph-scene": "^2.3.34",
+    "parsegraph-showincamera": "^1.7.18",
+    "parsegraph-timing": "^1.4.20",
+    "parsegraph-timingbelt": "^1.8.4",
+    "parsegraph-viewport": "^2.9.16"
   }
 }
