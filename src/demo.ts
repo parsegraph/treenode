@@ -22,27 +22,6 @@ const makeProtoBlock = (nav: Navport, list: Spawner, text: any) => {
     const root = car.root();
 
     const ac = new ActionCarousel(nav.carousel());
-    ac.addAction("Spawner", () => {
-      root.disconnectNode();
-      const list = new Spawner(nav, []);
-      list.setBuilder(() => makeProtoBlock(nav, list, list.length()));
-      for (let i = 0; i < 1; ++i) {
-        list.appendChild(makeProtoBlock(nav, list, i + 1));
-      }
-      list.setOnScheduleUpdate(() => {
-        ftn.invalidate();
-      });
-      state = list;
-      ac.uninstall();
-      ftn.invalidate();
-    });
-    ac.addAction("Create Label", () => {
-      root.disconnectNode();
-      state = makeBlock(nav, null, "Hey its a label");
-      state.setOnScheduleUpdate(() => ftn.invalidate());
-      ac.uninstall();
-      ftn.invalidate();
-    });
 
     ac.install(car.root());
     return car.root();
@@ -69,11 +48,20 @@ const makeBlock = (nav: Navport, list: Spawner, text: any) => {
 
 const buildGraph = (nav: Navport): TreeNode => {
   const list = new Spawner(nav, []);
-  list.setBuilder(() => makeProtoBlock(nav, list, list.length()));
+  list.addBuilders({
+    "Spawner": () => {
+      const list = new Spawner(nav, []);
+      list.setBuilder(() => makeProtoBlock(nav, list, list.length()));
+      for (let i = 0; i < 1; ++i) {
+        list.appendChild(makeProtoBlock(nav, list, i + 1));
+      }
+      return list
+    },
+    "Create Label": () => {
+      return makeBlock(nav, null, "Hey its a label");
+    }
+  });
   list.setOnScheduleUpdate(() => nav.scheduleRepaint());
-  /* for (let i = 0; i < 1; ++i) {
-    list.appendChild(makeProtoBlock(nav, list, i + 1));
-  }*/
   return list;
 };
 

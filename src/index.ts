@@ -6,9 +6,11 @@ import AbstractTreeList from "./AbstractTreeList";
 import BasicTreeList from "./BasicTreeList";
 import InlineTreeList from "./InlineTreeList";
 import Multislot from "./Multislot";
+import AbstractSpawner from "./AbstractSpawner";
 import Spawner from "./Spawner";
+import VSpawner from "./VSpawner";
 import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
-import FunctionalTreeNode, {TreeNodeCreator} from './FunctionalTreeNode';
+import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
 
 export default TreeNode;
 export {
@@ -17,7 +19,9 @@ export {
   BlockTreeNode,
   InlineTreeList,
   Multislot,
+  AbstractSpawner,
   Spawner,
+  VSpawner,
   TreeLabel,
   TreeList,
   ScheduleUpdateCallback,
