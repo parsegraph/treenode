@@ -1,15 +1,26 @@
 import { Keystroke } from "parsegraph-input";
+import Color from 'parsegraph-color';
 import Navport from "parsegraph-viewport";
-import { turnPositive, reverseDirection, Direction, PreferredAxis } from "parsegraph-direction";
+import {
+  turnPositive,
+  Alignment,
+  reverseDirection,
+  Direction,
+  PreferredAxis,
+} from "parsegraph-direction";
 import { PaintedNode } from "parsegraph-artist";
 import { ActionCarousel } from "parsegraph-viewport";
 import { BlockCaret, DefaultBlockPalette } from "parsegraph-block";
-import TreeNode from './TreeNode';
-import BlockTreeNode from './BlockTreeNode';
-import AbstractTreeList from './AbstractTreeList';
+import TreeNode from "./TreeNode";
+import BlockTreeNode from "./BlockTreeNode";
+import AbstractTreeList from "./AbstractTreeList";
 import FunctionalTreeNode from "./FunctionalTreeNode";
 
-const makeProtoBlock = (nav: Navport, text: any, builders: { [name: string]: () => TreeNode} ) => {
+const makeProtoBlock = (
+  nav: Navport,
+  text: any,
+  builders: { [name: string]: () => TreeNode }
+) => {
   const ftn = new FunctionalTreeNode(nav);
   let state: TreeNode = null;
   ftn.setCreator(() => {
@@ -17,15 +28,22 @@ const makeProtoBlock = (nav: Navport, text: any, builders: { [name: string]: () 
       return state.root();
     }
     const car = new BlockCaret("b");
-    car.node().value().setBlockStyle({
-      ...car.node().value().blockStyle(),
-      dashes: [20, 10]
-    });
+    const origStyle = car.node().value().blockStyle();
+    car
+      .node()
+      .value()
+      .setBlockStyle({
+        ...origStyle,
+        borderThickness: 6,
+        borderColor: origStyle.backgroundColor,
+        backgroundColor: new Color(0, 0, 0, 0),
+        dashes: [3, 1],
+      });
     car.label(text);
     const root = car.root();
 
     const ac = new ActionCarousel(nav.carousel());
-    Object.keys(builders).forEach(name=>{
+    Object.keys(builders).forEach((name) => {
       const builder = builders[name];
       ac.addAction(name, () => {
         root.disconnectNode();
@@ -57,6 +75,8 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
   abstract getDirection(): Direction;
 
   abstract getPreferredAxis(): PreferredAxis;
+
+  abstract getAlignment(): Alignment;
 
   getConnectDirection() {
     return turnPositive(this.getDirection());
@@ -114,8 +134,8 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     this._builder = builder;
   }
 
-  addBuilders(builders: {[name: string]: () => TreeNode}) {
-    this.setBuilder(() => makeProtoBlock(this.nav(), "", builders));
+  addBuilders(builders: { [name: string]: () => TreeNode }) {
+    this.setBuilder(() => makeProtoBlock(this.nav(), "\u2026", builders));
   }
 
   createNew(): TreeNode {
@@ -163,6 +183,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     this.installRootBud(root, childValue);
     const bud = root;
     bud.pull(this.getConnectDirection());
+    //bud.setNodeAlignmentMode(this.getConnectDirection(), this.getAlignment());
     bud.connectNode(this.getConnectDirection(), child);
     const firstBud = this.makeFirstBud(childValue);
     bud.connectNode(reverseDirection(this.getDirection()), firstBud);
@@ -181,6 +202,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     const bud = this.makeBud(childValue);
     lastChild.connectNode(this.getDirection(), bud);
     bud.connectNode(this.getConnectDirection(), child);
+    //bud.setNodeAlignmentMode(this.getConnectDirection(), this.getAlignment());
     bud.pull(this.getConnectDirection());
     const nextBud = this.makeNextBud(childValue);
     bud.connectNode(this.getDirection(), nextBud);
@@ -201,5 +223,4 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
       });
     return super.render();
   }
-
 }

@@ -1,5 +1,7 @@
+import Direction from 'parsegraph-direction';
 import Navport, { render } from "parsegraph-viewport";
 import Spawner from "./Spawner";
+import VSpawner from "./VSpawner";
 import { BlockCaret } from "parsegraph-block";
 import TreeNode from "./TreeNode";
 import FunctionalTreeNode from "./FunctionalTreeNode";
@@ -9,25 +11,7 @@ import { BasicProjector } from "parsegraph-projector";
 import { AbstractScene } from "parsegraph-scene";
 import TimingBelt from "parsegraph-timingbelt";
 import { showInCamera } from "parsegraph-showincamera";
-
-const makeProtoBlock = (nav: Navport, list: Spawner, text: any) => {
-  const ftn = new FunctionalTreeNode(nav);
-  let state: TreeNode = null;
-  ftn.setCreator(() => {
-    if (state) {
-      return state.root();
-    }
-    const car = new BlockCaret("b");
-    car.label(text);
-    const root = car.root();
-
-    const ac = new ActionCarousel(nav.carousel());
-
-    ac.install(car.root());
-    return car.root();
-  });
-  return ftn;
-};
+import Turn from './Turn';
 
 const makeBlock = (nav: Navport, list: Spawner, text: any) => {
   const block = new FunctionalTreeNode(nav);
@@ -47,20 +31,33 @@ const makeBlock = (nav: Navport, list: Spawner, text: any) => {
 };
 
 const buildGraph = (nav: Navport): TreeNode => {
-  const list = new Spawner(nav, []);
-  list.addBuilders({
-    "Spawner": () => {
-      const list = new Spawner(nav, []);
-      list.setBuilder(() => makeProtoBlock(nav, list, list.length()));
-      for (let i = 0; i < 1; ++i) {
-        list.appendChild(makeProtoBlock(nav, list, i + 1));
-      }
-      return list
-    },
+  const hSpawner = (turn: boolean) => () => {
+    const list = new Spawner(nav, []);
+    list.addBuilders({
+      ...builders,
+      HSpawner: hSpawner(false),
+      VSpawner: vSpawner(true),
+    });
+    list.appendChild(list.createNew());
+    return turn ? new Turn(Direction.DOWNWARD, list) : list;
+  };
+  const vSpawner = (turn: boolean) => () => {
+    const list = new VSpawner(nav, []);
+    list.addBuilders({
+      ...builders,
+      HSpawner: hSpawner(true),
+      VSpawner: vSpawner(false),
+    });
+    list.appendChild(list.createNew());
+    return turn ? new Turn(Direction.FORWARD, list) : list;
+  };
+  const builders = {
     "Create Label": () => {
       return makeBlock(nav, null, "Hey its a label");
-    }
-  });
+    },
+  };
+
+  const list = hSpawner(false)();
   list.setOnScheduleUpdate(() => nav.scheduleRepaint());
   return list;
 };
