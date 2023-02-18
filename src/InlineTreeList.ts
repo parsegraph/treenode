@@ -12,13 +12,13 @@ export default class InlineTreeList extends AbstractTreeList {
   connectInitialChild(root: PaintedNode, child: PaintedNode): PaintedNode {
     child.crease();
     root.connectNode(Direction.INWARD, child);
+    child.crease();
     child.state().setScale(SHRINK_SCALE);
     return child;
   }
 
   connectChild(lastChild: PaintedNode, child: PaintedNode): PaintedNode {
     lastChild.connectNode(Direction.FORWARD, child);
-    child.crease();
     return child;
   }
 }
