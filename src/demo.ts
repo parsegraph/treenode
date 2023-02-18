@@ -1,6 +1,6 @@
 import Direction from "parsegraph-direction";
 import Navport, { render } from "parsegraph-viewport";
-import Spawner from "./Spawner";
+import HSpawner from "./HSpawner";
 import VSpawner from "./VSpawner";
 import { BlockCaret } from "parsegraph-block";
 import TreeNode from "./TreeNode";
@@ -32,7 +32,7 @@ const makeBlock = (nav: Navport, list: Spawner, text: any) => {
 
 const buildGraph = (nav: Navport): TreeNode => {
   const hSpawner = (turn: boolean) => () => {
-    const list = new Spawner(nav, []);
+    const list = new HSpawner(nav, []);
     list.addBuilders({
       ...builders,
       HSpawner: hSpawner(false),

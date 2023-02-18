@@ -1,7 +1,7 @@
 import Navport, { render } from "parsegraph-viewport";
 import Direction from 'parsegraph-direction';
 import Color from 'parsegraph-color';
-import Spawner from "./Spawner";
+import VSpawner from "./VSpawner";
 import { BlockCaret } from "parsegraph-block";
 import TreeNode from "./TreeNode";
 import FunctionalTreeNode from "./FunctionalTreeNode";
@@ -179,7 +179,7 @@ const makeBlock = (nav: Navport, text: any) => {
 };
 
 const buildGraph = (nav: Navport): TreeNode => {
-  const list = new Spawner(nav, []);
+  const list = new VSpawner(nav, []);
   list.setBuilder(() => makeProtoBlock(nav, list.length()));
   list.setOnScheduleUpdate(() => nav.scheduleRepaint());
   /* for (let i = 0; i < 1; ++i) {

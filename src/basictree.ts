@@ -1,5 +1,5 @@
 import Navport, { render } from "parsegraph-viewport";
-import Spawner from "./Spawner";
+import HSpawner from "./HSpawner";
 import { BlockCaret } from "parsegraph-block";
 import TreeNode from "./TreeNode";
 import FunctionalTreeNode from "./FunctionalTreeNode";
@@ -25,7 +25,7 @@ const makeProtoBlock = (nav: Navport, text: any) => {
     const ac = new ActionCarousel(nav.carousel());
     ac.addAction("Spawner", () => {
       root.disconnectNode();
-      const list = new Spawner(nav, []);
+      const list = new HSpawner(nav, []);
       list.setBuilder(() => makeProtoBlock(nav, list.length()));
       for (let i = 0; i < 1; ++i) {
         list.appendChild(makeProtoBlock(nav, i + 1));
@@ -112,7 +112,7 @@ const makeBlock = (nav: Navport, text: any) => {
 };
 
 const buildGraph = (nav: Navport): TreeNode => {
-  const list = new Spawner(nav, []);
+  const list = new HSpawner(nav, []);
   list.setBuilder(() => makeProtoBlock(nav, list.length()));
   list.setOnScheduleUpdate(() => nav.scheduleRepaint());
   /* for (let i = 0; i < 1; ++i) {
