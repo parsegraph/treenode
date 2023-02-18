@@ -1,7 +1,8 @@
 import Navport, { render } from "parsegraph-viewport";
-import Direction from 'parsegraph-direction';
-import Color from 'parsegraph-color';
+import Direction from "parsegraph-direction";
+import Color from "parsegraph-color";
 import VSpawner from "./VSpawner";
+import InlineSpawner from "./InlineSpawner";
 import { BlockCaret } from "parsegraph-block";
 import TreeNode from "./TreeNode";
 import FunctionalTreeNode from "./FunctionalTreeNode";
@@ -9,9 +10,9 @@ import { ActionCarousel } from "parsegraph-viewport";
 import { BasicProjector } from "parsegraph-projector";
 import { AbstractScene } from "parsegraph-scene";
 import TimingBelt from "parsegraph-timingbelt";
-import InlineTreeList from './InlineTreeList';
-import BlockTreeNode from './BlockTreeNode';
-import { BlockNode } from 'parsegraph-block';
+import InlineTreeList from "./InlineTreeList";
+import BlockTreeNode from "./BlockTreeNode";
+import { BlockNode } from "parsegraph-block";
 
 import WrappingTreeList from "./WrappingTreeList";
 
@@ -19,30 +20,21 @@ const objKey = (nav: Navport) => {
   const keyBlock = makeBlock(nav, "Key");
   const valueBlock = makeProtoBlock(nav, "");
   const ftn = new FunctionalTreeNode(nav);
-  keyBlock.setOnScheduleUpdate(()=>ftn.invalidate());
-  valueBlock.setOnScheduleUpdate(()=>ftn.invalidate());
+  keyBlock.setOnScheduleUpdate(() => ftn.invalidate());
+  valueBlock.setOnScheduleUpdate(() => ftn.invalidate());
   ftn.setCreator(() => {
-    const bc = new BlockCaret('u');
-    bc.connect('b', keyBlock.root());
-    bc.connect('f', valueBlock.root());
+    const bc = new BlockCaret("u");
+    bc.connect("b", keyBlock.root());
+    bc.connect("f", valueBlock.root());
     return bc.root();
   });
   return ftn;
 };
 
 const objectNode = (nav: Navport) => {
-  const root = new FunctionalTreeNode(nav);
-  const list = new InlineTreeList(nav, root, []);
-  list.setConnectDirection(Direction.DOWNWARD);
-  root.setCreator(() => {
-    const node = new BlockNode('b');
-    const ac = new ActionCarousel(nav.carousel());
-    ac.addAction("New Key", ()=>{
-      const newKey = objKey(nav);
-      list.appendChild(newKey);
-    });
-    ac.install(node);
-    return node;
+  const list = new InlineSpawner(nav, []);
+  list.setBuilder(()=>{
+    return objKey(nav);
   });
   return list;
 };
@@ -60,14 +52,17 @@ const makeProtoBlock = (
     }
     const car = new BlockCaret("b");
     const style = car.node().value().blockStyle();
-    car.node().value().setBlockStyle({
-      ...style,
-      borderColor: style.backgroundColor,
-      backgroundColor: new Color(0, 0, 0, 0),
-      fontColor: new Color(1, 1, 1, 1),
-      borderThickness: 6,
-      dashes: [3, 1]
-    });
+    car
+      .node()
+      .value()
+      .setBlockStyle({
+        ...style,
+        borderColor: style.backgroundColor,
+        backgroundColor: new Color(0, 0, 0, 0),
+        fontColor: new Color(1, 1, 1, 1),
+        borderThickness: 6,
+        dashes: [3, 1],
+      });
 
     car.label("\u2026");
     const root = car.root();

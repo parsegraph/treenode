@@ -10,6 +10,7 @@ import Multislot from "./Multislot";
 import AbstractSpawner from "./AbstractSpawner";
 import HSpawner from "./HSpawner";
 import VSpawner from "./VSpawner";
+import InlineSpawner from "./InlineSpawner";
 import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
 import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
 import Turn from "./Turn";
@@ -26,6 +27,7 @@ export {
   AbstractSpawner,
   HSpawner,
   VSpawner,
+  InlineSpawner,
   TreeLabel,
   TreeList,
   ScheduleUpdateCallback,
