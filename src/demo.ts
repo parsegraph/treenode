@@ -13,7 +13,7 @@ import TimingBelt from "parsegraph-timingbelt";
 import { showInCamera } from "parsegraph-showincamera";
 import Turn from "./Turn";
 
-const makeBlock = (nav: Navport, list: Spawner, text: any) => {
+const makeBlock = (nav: Navport, list: HSpawner, text: any) => {
   const block = new FunctionalTreeNode(nav);
   block.setCreator(() => {
     const car = new BlockCaret("b");
