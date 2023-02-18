@@ -2,8 +2,9 @@ import Direction from 'parsegraph-direction';
 import { DefaultBlockPalette } from "parsegraph-block";
 import { PaintedNode } from "parsegraph-artist";
 import TreeNode from "./TreeNode";
+import AbstractTreeNode from "./AbstractTreeNode";
 
-export default class Turn extends TreeNode {
+export default class Turn extends AbstractTreeNode {
   _palette: DefaultBlockPalette;
   _connectDir: Direction;
   _connected: TreeNode;

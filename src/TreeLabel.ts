@@ -1,9 +1,9 @@
 import { PaintedNode } from "parsegraph-artist";
 import { BlockCaret, DefaultBlockPalette } from "parsegraph-block";
 
-import TreeNode from "./TreeNode";
+import AbstractTreeNode from "./AbstractTreeNode";
 
-export default class TreeLabel extends TreeNode {
+export default class TreeLabel extends AbstractTreeNode {
   _label: string;
   _type: any;
   _palette: DefaultBlockPalette;

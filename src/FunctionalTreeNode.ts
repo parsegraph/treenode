@@ -1,15 +1,16 @@
 import Navport from "parsegraph-viewport";
 import { PaintedNode } from "parsegraph-artist";
-import TreeNode from "./TreeNode";
+import AbstractTreeNode from "./AbstractTreeNode";
 import { logEnterc, logLeave } from "parsegraph-log";
 
 export type TreeNodeCreator = () => PaintedNode;
 
-export default class FunctionalTreeNode extends TreeNode {
+export default class FunctionalTreeNode extends AbstractTreeNode {
   _creator: TreeNodeCreator;
 
-  constructor(nav: Navport) {
+  constructor(nav: Navport, creator?: TreeNodeCreator) {
     super(nav);
+    this._creator = creator;
   }
 
   setCreator(creator: TreeNodeCreator) {

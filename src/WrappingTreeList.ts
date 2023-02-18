@@ -3,9 +3,10 @@ import { PaintedNode } from "parsegraph-artist";
 import Direction, { SHRINK_SCALE } from "parsegraph-direction";
 import { DefaultBlockPalette, BlockPalette } from "parsegraph-block";
 import TreeNode from "./TreeNode";
+import AbstractTreeNode from "./AbstractTreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 
-export class NewlineTreeNode extends TreeNode {
+export class NewlineTreeNode extends AbstractTreeNode {
   constructor() {
     super(null);
   }

@@ -1,4 +1,5 @@
 import TreeNode, { ScheduleUpdateCallback } from "./TreeNode";
+import AbstractTreeNode from "./AbstractTreeNode";
 import BlockTreeNode from "./BlockTreeNode";
 import TreeLabel from "./TreeLabel";
 import TreeList from "./TreeList";
@@ -17,6 +18,7 @@ export default TreeNode;
 export {
   Turn,
   AbstractTreeList,
+  AbstractTreeNode,
   BasicTreeList,
   BlockTreeNode,
   InlineTreeList,
