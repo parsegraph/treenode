@@ -11,7 +11,7 @@ SCRIPT_FILES = \
 	src/BasicTreeList.ts \
 	src/json.ts \
 	src/TreeLabel.ts \
-	src/Spawner.ts \
+	src/HSpawner.ts \
 	src/Turn.ts \
 	src/VSpawner.ts \
 	src/AbstractTreeList.ts \
