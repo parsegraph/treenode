@@ -7,6 +7,7 @@ SCRIPT_FILES = \
 	src/InlineTreeList.ts \
 	src/index.ts \
 	src/wrapping.ts \
+	src/InlineSpawner.ts \
 	src/BlockTreeNode.ts \
 	src/BasicTreeList.ts \
 	src/json.ts \
