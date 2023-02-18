@@ -5,4 +5,3 @@ export default interface TreeNode {
   root(): PaintedNode;
   setOnScheduleUpdate(callback: ScheduleUpdateCallback): void;
 }
-

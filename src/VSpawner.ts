@@ -1,8 +1,4 @@
-import {
-  Alignment,
-  Direction,
-  PreferredAxis,
-} from "parsegraph-direction";
+import { Alignment, Direction, PreferredAxis } from "parsegraph-direction";
 import AbstractSpawner from "./AbstractSpawner";
 
 export default class VSpawner extends AbstractSpawner {

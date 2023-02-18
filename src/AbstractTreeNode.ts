@@ -1,7 +1,7 @@
 import { PaintedNode } from "parsegraph-artist";
 import Navport from "parsegraph-viewport";
 import { logEnterc, logLeave } from "parsegraph-log";
-import TreeNode from './TreeNode';
+import TreeNode from "./TreeNode";
 
 export type ScheduleUpdateCallback = () => void;
 export default abstract class AbstractTreeNode implements TreeNode {

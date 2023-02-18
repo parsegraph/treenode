@@ -12,7 +12,7 @@ import Spawner from "./Spawner";
 import VSpawner from "./VSpawner";
 import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
 import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
-import Turn from './Turn';
+import Turn from "./Turn";
 
 export default TreeNode;
 export {

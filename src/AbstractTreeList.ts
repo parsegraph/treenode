@@ -1,7 +1,7 @@
 import { PaintedNode } from "parsegraph-artist";
 import Direction from "parsegraph-direction";
 import Navport from "parsegraph-viewport";
-import TreeNode from './TreeNode';
+import TreeNode from "./TreeNode";
 import AbstractTreeNode from "./AbstractTreeNode";
 import TreeList from "./TreeList";
 import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";

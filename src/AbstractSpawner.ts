@@ -1,5 +1,5 @@
 import { Keystroke } from "parsegraph-input";
-import Color from 'parsegraph-color';
+import Color from "parsegraph-color";
 import Navport from "parsegraph-viewport";
 import {
   turnPositive,
@@ -183,7 +183,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     this.installRootBud(root, childValue);
     const bud = root;
     bud.pull(this.getConnectDirection());
-    //bud.setNodeAlignmentMode(this.getConnectDirection(), this.getAlignment());
+    // bud.setNodeAlignmentMode(this.getConnectDirection(), this.getAlignment());
     bud.connectNode(this.getConnectDirection(), child);
     const firstBud = this.makeFirstBud(childValue);
     bud.connectNode(reverseDirection(this.getDirection()), firstBud);
@@ -202,7 +202,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     const bud = this.makeBud(childValue);
     lastChild.connectNode(this.getDirection(), bud);
     bud.connectNode(this.getConnectDirection(), child);
-    //bud.setNodeAlignmentMode(this.getConnectDirection(), this.getAlignment());
+    // bud.setNodeAlignmentMode(this.getConnectDirection(), this.getAlignment());
     bud.pull(this.getConnectDirection());
     const nextBud = this.makeNextBud(childValue);
     bud.connectNode(this.getDirection(), nextBud);

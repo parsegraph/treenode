@@ -1,4 +1,4 @@
-import Direction from 'parsegraph-direction';
+import Direction from "parsegraph-direction";
 import Navport, { render } from "parsegraph-viewport";
 import Spawner from "./Spawner";
 import VSpawner from "./VSpawner";
@@ -11,7 +11,7 @@ import { BasicProjector } from "parsegraph-projector";
 import { AbstractScene } from "parsegraph-scene";
 import TimingBelt from "parsegraph-timingbelt";
 import { showInCamera } from "parsegraph-showincamera";
-import Turn from './Turn';
+import Turn from "./Turn";
 
 const makeBlock = (nav: Navport, list: Spawner, text: any) => {
   const block = new FunctionalTreeNode(nav);
