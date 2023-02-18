@@ -5,8 +5,23 @@ import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 
 export default class InlineTreeList extends AbstractTreeList {
+  _connectDir: Direction;
+
   constructor(nav: Navport, title: TreeNode, children: TreeNode[]) {
     super(nav, title, children);
+    this._connectDir = Direction.FORWARD;
+  }
+
+  setConnectDirection(dir: Direction) {
+    if (this._connectDir === dir) {
+      return;
+    }
+    this._connectDir = dir;
+    this.invalidate();
+  }
+
+  getConnectDirection() {
+    return this._connectDir;
   }
 
   connectInitialChild(root: PaintedNode, child: PaintedNode): PaintedNode {
@@ -18,7 +33,7 @@ export default class InlineTreeList extends AbstractTreeList {
   }
 
   connectChild(lastChild: PaintedNode, child: PaintedNode): PaintedNode {
-    lastChild.connectNode(Direction.FORWARD, child);
+    lastChild.connectNode(this._connectDir, child);
     return child;
   }
 }
