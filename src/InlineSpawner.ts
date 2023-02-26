@@ -18,17 +18,24 @@ import AbstractTreeList from "./AbstractTreeList";
 import FunctionalTreeNode from "./FunctionalTreeNode";
 
 export default class InlineSpawner extends AbstractSpawner {
+  _direction: Direction;
+
   constructor(nav: Navport, children: TreeNode[]) {
     super(nav, children);
     this.setTitle(new BlockTreeNode("b"));
+    this._direction = Direction.DOWNWARD;
   }
 
   getDirection() {
-    return Direction.DOWNWARD;
+    return this._direction;
   }
 
-  getConnectDirection() {
-    return Direction.DOWNWARD;
+  setDirection(dir: Direction) {
+    if (this.getDirection() === dir) {
+      return;
+    }
+    this._direction = dir;
+    this.invalidate();
   }
 
   getAlignment() {
