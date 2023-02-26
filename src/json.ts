@@ -16,14 +16,17 @@ import { BlockNode } from "parsegraph-block";
 
 import WrappingTreeList from "./WrappingTreeList";
 
-const objKey = (nav: Navport) => {
+const objKey = (nav: Navport, onDelete: () => void) => {
   const keyBlock = makeBlock(nav, "Key");
-  const valueBlock = makeProtoBlock(nav, "");
+  const valueBlock = makeProtoBlock(nav);
   const ftn = new FunctionalTreeNode(nav);
   keyBlock.setOnScheduleUpdate(() => ftn.invalidate());
   valueBlock.setOnScheduleUpdate(() => ftn.invalidate());
   ftn.setCreator(() => {
     const bc = new BlockCaret("u");
+    const ac = new ActionCarousel(nav.carousel());
+    ac.addAction("Delete", onDelete);
+    ac.install(bc.root());
     bc.connect("b", keyBlock.root());
     bc.connect("f", valueBlock.root());
     return bc.root();
@@ -33,15 +36,18 @@ const objKey = (nav: Navport) => {
 
 const objectNode = (nav: Navport) => {
   const list = new InlineSpawner(nav, []);
-  list.setBuilder(()=>{
-    return objKey(nav);
+  list.setBuilder(() => {
+    const node = objKey(nav, () => {
+      list.removeChild(node);
+    });
+    return node;
   });
   return list;
 };
 
 const makeProtoBlock = (
   nav: Navport,
-  text: any,
+  onDelete?: () => void,
   extraActions: { [name: string]: (nav: Navport) => TreeNode } = null
 ) => {
   const ftn = new FunctionalTreeNode(nav);
@@ -88,11 +94,14 @@ const makeProtoBlock = (
     });
     ac.addAction("Array", () => {
       root.disconnectNode();
-      state = makeWrappingTreeList(nav);
+      state = makeArray(nav);
       state.setOnScheduleUpdate(() => ftn.invalidate());
       ac.uninstall();
       ftn.invalidate();
     });
+    if (onDelete) {
+      ac.addAction("Delete", onDelete);
+    }
     if (extraActions) {
       Object.keys(extraActions).forEach((name) => {
         const creator = extraActions[name];
@@ -111,47 +120,14 @@ const makeProtoBlock = (
   return ftn;
 };
 
-const makeWrappingTreeList = (nav: Navport) => {
-  const title = new FunctionalTreeNode(nav);
-  const list = new WrappingTreeList(nav, title, []);
-
-  const newBlock = () => {
-    const block = makeProtoBlock(nav, list.length(), {
-      Newline: () => list.getNewline(),
+const makeArray = (nav: Navport) => {
+  const list = new InlineSpawner(nav, []);
+  list.setDirection(Direction.FORWARD);
+  list.setBuilder(() => {
+    const node = makeProtoBlock(nav, () => {
+      list.removeChild(node);
     });
-    block.setOnScheduleUpdate(() => list.invalidate());
-    return block;
-  };
-  list.appendChild(newBlock());
-
-  title.setCreator(() => {
-    const car = new BlockCaret("s");
-    const ac = new ActionCarousel(nav.carousel());
-    ac.addAction("Append", () => {
-      list.appendChild(newBlock());
-    });
-    ac.addAction("Insert", () => {
-      if (list.length() === 0) {
-        list.appendChild(newBlock());
-      } else {
-        list.insertBefore(newBlock(), list.childAt(0));
-      }
-    });
-    ac.addAction("Pop", () => {
-      if (list.length() === 0) {
-        return;
-      }
-      list.removeChild(list.childAt(list.length() - 1));
-    });
-    ac.addAction("Shift", () => {
-      if (list.length() === 0) {
-        return;
-      }
-      list.removeChild(list.childAt(0));
-    });
-
-    ac.install(car.root());
-    return car.root();
+    return node;
   });
   return list;
 };
@@ -175,10 +151,17 @@ const makeBlock = (nav: Navport, text: any) => {
 
 const buildGraph = (nav: Navport): TreeNode => {
   const list = new VSpawner(nav, []);
-  list.setBuilder(() => makeProtoBlock(nav, list.length()));
-  list.setOnScheduleUpdate(() => nav.scheduleRepaint());
+  list.setBuilder(() => {
+    const node = makeProtoBlock(nav, () => {
+      list.removeChild(node);
+    });
+    return node;
+  });
+  list.setOnScheduleUpdate(() => {
+    nav.scheduleRepaint();
+  });
   /* for (let i = 0; i < 1; ++i) {
-    list.appendChild(makeProtoBlock(nav, i + 1));
+    list.appendChild(makeProtoBlock(nav));
   }*/
   return list;
 };
@@ -220,6 +203,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const rootNode = buildGraph(nav);
   rootNode.setOnScheduleUpdate(() => {
     nav.setRoot(rootNode.root());
+    console.log(
+      "PGs",
+      rootNode
+        .root()
+        .paintGroup()
+        .dump()
+        .map((pg) => pg.id())
+        .join(", ")
+    );
+    console.log("PG next", rootNode.root().paintGroup().next());
+    console.log("PG prev", rootNode.root().paintGroup().prev());
     nav.scheduleRepaint();
     console.log("REPAINT");
   });
