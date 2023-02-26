@@ -55,15 +55,15 @@
     "parsegraph-log": "^1.9.3"
   },
   "dependencies": {
-    "parsegraph-artist": "^3.4.70",
-    "parsegraph-block": "^4.7.2",
-    "parsegraph-direction": "^2.4.0",
+    "parsegraph-artist": "^3.4.72",
+    "parsegraph-block": "^4.7.4",
+    "parsegraph-direction": "^2.4.1",
     "parsegraph-input": "^2.0.12",
     "parsegraph-projector": "^1.14.12",
-    "parsegraph-scene": "^2.3.37",
-    "parsegraph-showincamera": "^1.7.21",
+    "parsegraph-scene": "^2.3.39",
+    "parsegraph-showincamera": "^1.7.23",
     "parsegraph-timing": "^1.4.20",
     "parsegraph-timingbelt": "^1.8.4",
-    "parsegraph-viewport": "^2.9.22"
+    "parsegraph-viewport": "^2.9.23"
   }
 }
