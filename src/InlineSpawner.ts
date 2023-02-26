@@ -5,6 +5,7 @@ import Navport from "parsegraph-viewport";
 import {
   turnPositive,
   Alignment,
+  SHRINK_SCALE,
   reverseDirection,
   Direction,
   PreferredAxis,
@@ -57,6 +58,8 @@ export default class InlineSpawner extends AbstractSpawner {
   ): PaintedNode {
     const bud = this.makeFirstBud(childValue);
     root.connectNode(Direction.INWARD, bud);
+    bud.crease();
+    bud.state().setScale(SHRINK_SCALE);
     bud.connectNode(this.getDirection(), child);
     const nextBud = this.makeNextBud(childValue);
     child.connectNode(this.getDirection(), nextBud);
