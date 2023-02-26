@@ -39,6 +39,10 @@ export default class InlineSpawner extends AbstractSpawner {
     return PreferredAxis.HORIZONTAL;
   }
 
+  clearNode(rootNode: PaintedNode): void {
+    rootNode.disconnectNode(Direction.INWARD);
+  }
+
   connectInitialChild(
     root: PaintedNode,
     child: PaintedNode,
