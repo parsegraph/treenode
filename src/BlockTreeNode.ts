@@ -4,17 +4,21 @@ import AbstractTreeNode from "./AbstractTreeNode";
 
 export default class BlockTreeNode extends AbstractTreeNode {
   _label: string;
-  _nodeType: any;
+  _nodeType: string | number;
   _palette: DefaultBlockPalette;
   _style: any;
 
-  constructor(nodeType?: any, label?: string, style?: any) {
+  constructor(nodeType?: string | number, label?: string, style?: any) {
     super(null);
     this._palette = new DefaultBlockPalette();
     this._nodeType = nodeType;
     this._label = label;
     this._style = style;
     this.invalidate();
+  }
+
+  getStyle() {
+    return this._style;
   }
 
   getType(): any {
@@ -24,7 +28,7 @@ export default class BlockTreeNode extends AbstractTreeNode {
     this._nodeType = nodeType;
     this.invalidate();
   }
-  getLabel(): any {
+  getLabel(): string {
     return this._label;
   }
   setLabel(label: string) {
