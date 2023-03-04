@@ -72,7 +72,6 @@ export default class BasicTreeList<
 
   connectChild(lastChild: PaintedNode, child: PaintedNode): PaintedNode {
     const bud = this._palette.spawn("u") as PaintedNode;
-    console.log(bud.state().id());
     lastChild.connectNode(turnPositive(this._direction), bud);
     bud.connectNode(this._direction, child);
     bud.setLayoutPreference(
