@@ -175,7 +175,6 @@ export default abstract class AbstractTreeList
     let lastChild: PaintedNode = null;
     this._children.forEach((child, i) => {
       const childRoot = child.root();
-      console.log("CR", childRoot);
       if (!childRoot) {
         lastChild = this.connectSpecial(child) || lastChild;
       } else if (i == 0) {
