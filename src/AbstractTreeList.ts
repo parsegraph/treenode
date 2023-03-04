@@ -108,7 +108,7 @@ export default abstract class AbstractTreeList<T extends TreeNode = TreeNode>
       return;
     }
     refChild.setOnScheduleUpdate(null);
-    newChild.setOnScheduleUpdate(()=>this.invalidate());
+    newChild.setOnScheduleUpdate(() => this.invalidate());
     this._children[idx] = newChild;
     this.invalidate();
   }

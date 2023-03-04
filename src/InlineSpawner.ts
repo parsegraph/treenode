@@ -18,7 +18,9 @@ import BlockTreeNode from "./BlockTreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 import FunctionalTreeNode from "./FunctionalTreeNode";
 
-export default class InlineSpawner<T extends TreeNode = TreeNode> extends AbstractSpawner<T> {
+export default class InlineSpawner<
+  T extends TreeNode = TreeNode
+> extends AbstractSpawner<T> {
   _direction: Direction;
 
   constructor(nav: Navport, children: T[]) {

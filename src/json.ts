@@ -15,7 +15,7 @@ import BlockTreeNode from "./BlockTreeNode";
 import { BlockNode } from "parsegraph-block";
 
 import WrappingTreeList from "./WrappingTreeList";
-import {StemBlock} from "./AbstractSpawner";
+import { StemBlock } from "./AbstractSpawner";
 import TreeList from "./TreeList";
 import TreeListGenerator from "./TreeListGenerator";
 import AbstractTreeNode from "./AbstractTreeNode";
@@ -23,11 +23,20 @@ import StringTreeNode from "./StringTreeNode";
 
 const LOCAL_STORAGE_KEY = "parsegraph-treenode-json";
 
-const makeProtoBlock = (nav:Navport, onBuild: (val: JSONTreeNode | StemBlock<JSONTreeNode>, orig: StemBlock<JSONTreeNode>)=>void, onDelete?: (node: JSONTreeNode | StemBlock<JSONTreeNode>)=>void) => {
-  const builders: { [name: string]: (node: JSONTreeNode) => (JSONTreeNode | null) } = {
-    "Object": () => new JSONObjectNode(nav),
-    "Value": () => new JSONValueNode(nav, "Value"),
-    "Array": () => new JSONArrayNode(nav),
+const makeProtoBlock = (
+  nav: Navport,
+  onBuild: (
+    val: JSONTreeNode | StemBlock<JSONTreeNode>,
+    orig: StemBlock<JSONTreeNode>
+  ) => void,
+  onDelete?: (node: JSONTreeNode | StemBlock<JSONTreeNode>) => void
+) => {
+  const builders: {
+    [name: string]: (node: JSONTreeNode) => JSONTreeNode | null;
+  } = {
+    Object: () => new JSONObjectNode(nav),
+    Value: () => new JSONValueNode(nav, "Value"),
+    Array: () => new JSONArrayNode(nav),
   };
   if (onDelete) {
     builders["Delete"] = (node: JSONTreeNode) => {
@@ -36,7 +45,7 @@ const makeProtoBlock = (nav:Navport, onBuild: (val: JSONTreeNode | StemBlock<JSO
     };
   }
   return new StemBlock<JSONTreeNode>(nav, onBuild, builders);
-}
+};
 
 abstract class JSONTreeNode extends AbstractTreeNode {
   abstract toJSON(): any;
@@ -48,7 +57,7 @@ class JSONObjectNode extends JSONTreeNode {
   constructor(nav: Navport) {
     super(nav);
     this._keys = new InlineSpawner(nav, []);
-    this._keys.setOnScheduleUpdate(()=>this.invalidate());
+    this._keys.setOnScheduleUpdate(() => this.invalidate());
     this._keys.setBuilder(() => new JSONObjectEntryNode(nav, this._keys));
   }
 
@@ -62,7 +71,7 @@ class JSONObjectNode extends JSONTreeNode {
 
   toJSON() {
     const obj: { [key: string]: any } = {};
-    for(let i = 0; i < this._keys.length(); ++i) {
+    for (let i = 0; i < this._keys.length(); ++i) {
       const entry = this._keys.childAt(i);
       if (entry instanceof StemBlock) {
         continue;
@@ -79,14 +88,21 @@ class JSONObjectEntryNode extends AbstractTreeNode {
   _valueBlock: StemBlock<JSONTreeNode> | JSONTreeNode;
   _keyName: string;
 
-  constructor(nav: Navport, list: TreeList<JSONObjectEntryNode | StemBlock<JSONObjectEntryNode>>) {
+  constructor(
+    nav: Navport,
+    list: TreeList<JSONObjectEntryNode | StemBlock<JSONObjectEntryNode>>
+  ) {
     super(nav);
     this._list = list;
     this._keyName = "Key";
-    this._keyBlock = new StringTreeNode(nav, this._keyName, async (val: string) =>{
-      this._keyName = val;
-    });
-    this._valueBlock = makeProtoBlock(nav, (val)=>{
+    this._keyBlock = new StringTreeNode(
+      nav,
+      this._keyName,
+      async (val: string) => {
+        this._keyName = val;
+      }
+    );
+    this._valueBlock = makeProtoBlock(nav, (val) => {
       this.setValue(val);
     });
 
@@ -97,7 +113,7 @@ class JSONObjectEntryNode extends AbstractTreeNode {
   render() {
     const bc = new BlockCaret("u");
     const ac = new ActionCarousel(this.nav().carousel());
-    ac.addAction("Delete", ()=>this._list.removeChild(this));
+    ac.addAction("Delete", () => this._list.removeChild(this));
     ac.install(bc.root());
     bc.connect("b", this._keyBlock.root());
     bc.connect("f", this._valueBlock.root());
@@ -135,7 +151,7 @@ class JSONObjectEntryNode extends AbstractTreeNode {
   }
 }
 
-/*const makeProtoBlock = (
+/* const makeProtoBlock = (
   nav: Navport,
   onDelete?: () => void,
   extraActions: { [name: string]: (nav: Navport) => TreeNode } = null
@@ -217,8 +233,14 @@ class JSONArrayNode extends JSONTreeNode {
     super(nav);
     this._list = new InlineSpawner(nav, []);
     this._list.setDirection(Direction.FORWARD);
-    this._list.setOnScheduleUpdate(()=>this.invalidate());
-    this._list.setBuilder(() => makeProtoBlock(nav, (val, orig)=>this._list.replaceChild(orig, val), (node)=>this._list.removeChild(node)));
+    this._list.setOnScheduleUpdate(() => this.invalidate());
+    this._list.setBuilder(() =>
+      makeProtoBlock(
+        nav,
+        (val, orig) => this._list.replaceChild(orig, val),
+        (node) => this._list.removeChild(node)
+      )
+    );
   }
 
   list() {
@@ -230,10 +252,13 @@ class JSONArrayNode extends JSONTreeNode {
   }
 
   toJSON() {
-    const gen = new TreeListGenerator<any, JSONTreeNode | StemBlock<JSONTreeNode>>();
+    const gen = new TreeListGenerator<
+      any,
+      JSONTreeNode | StemBlock<JSONTreeNode>
+    >();
     gen.setList(this._list);
 
-    gen.setGenerator((node, EMPTY)=>{
+    gen.setGenerator((node, EMPTY) => {
       if (node instanceof StemBlock) {
         return EMPTY;
       }
@@ -259,7 +284,7 @@ class JSONValueNode extends JSONTreeNode {
     const car = new BlockCaret("b");
     const val = this.toJSON();
     if (val === null) {
-      car.label('null');
+      car.label("null");
     } else {
       car.label(this.toJSON().toString());
     }
@@ -274,13 +299,13 @@ class JSONValueNode extends JSONTreeNode {
 const buildGraph = (nav: Navport) => {
   const list = new VSpawner<JSONTreeNode>(nav, []);
   list.setBuilders({
-    "Object": () => new JSONObjectNode(nav),
-    "Value": () => new JSONValueNode(nav, "Value"),
-    "Array": () => new JSONArrayNode(nav),
-    "Delete": (node: JSONTreeNode) => {
+    Object: () => new JSONObjectNode(nav),
+    Value: () => new JSONValueNode(nav, "Value"),
+    Array: () => new JSONArrayNode(nav),
+    Delete: (node: JSONTreeNode) => {
       list.removeChild(node);
       return null;
-    }
+    },
   });
   return list;
 };
@@ -317,15 +342,15 @@ class Overlay extends AbstractScene {
   }
 }
 
-const generate = (nav: Navport, item: any)=>{
+const generate = (nav: Navport, item: any) => {
   if (Array.isArray(item)) {
     const node = new JSONArrayNode(nav);
-    item.forEach(subItem => node.list().appendChild(generate(nav, subItem)));
+    item.forEach((subItem) => node.list().appendChild(generate(nav, subItem)));
     return node;
   }
   if (typeof item === "object") {
     const node = new JSONObjectNode(nav);
-    Object.keys(item).forEach(key => {
+    Object.keys(item).forEach((key) => {
       const entry = new JSONObjectEntryNode(nav, node.keys());
       entry.setKey(key);
       entry.setValue(generate(nav, item[key]));
@@ -344,23 +369,23 @@ document.addEventListener("DOMContentLoaded", () => {
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)).forEach((item: any) => {
       rootNode.appendChild(generate(nav, item));
     });
-  } catch(ex) {
+  } catch (ex) {
     console.log(ex);
   }
 
   rootNode.setOnScheduleUpdate(() => {
     nav.setRoot(rootNode.root());
     console.log(
-       "PGs",
-       rootNode
-         .root()
-         .paintGroup()
-         .dump()
-         .map((pg) => pg.id())
-         .join(", ")
-     );
-     console.log("PG next", rootNode.root().paintGroup().next());
-     console.log("PG prev", rootNode.root().paintGroup().prev());
+      "PGs",
+      rootNode
+        .root()
+        .paintGroup()
+        .dump()
+        .map((pg) => pg.id())
+        .join(", ")
+    );
+    console.log("PG next", rootNode.root().paintGroup().next());
+    console.log("PG prev", rootNode.root().paintGroup().prev());
 
     nav.scheduleRepaint();
     console.log("creating", rootNode.length());

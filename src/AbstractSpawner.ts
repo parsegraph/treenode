@@ -17,13 +17,18 @@ import AbstractTreeList from "./AbstractTreeList";
 import FunctionalTreeNode from "./FunctionalTreeNode";
 import TreeList from "./TreeList";
 
-export type SpawnerBuilder<T extends TreeNode> = (node: T | StemBlock<T> | null) => T | StemBlock<T> | null;
+export type SpawnerBuilder<T extends TreeNode> = (
+  node: T | StemBlock<T> | null
+) => T | StemBlock<T> | null;
 
 export class StemBlock<
   T extends TreeNode = TreeNode
 > extends FunctionalTreeNode {
-
-  constructor(nav: Navport, onBuild: (val: StemBlock<T> | T, orig: StemBlock<T>)=>void, builders: { [name: string]: SpawnerBuilder<T>}) {
+  constructor(
+    nav: Navport,
+    onBuild: (val: StemBlock<T> | T, orig: StemBlock<T>) => void,
+    builders: { [name: string]: SpawnerBuilder<T> }
+  ) {
     super(nav);
     this.setCreator(() => {
       const car = new BlockCaret("b");
@@ -134,7 +139,14 @@ export default abstract class AbstractSpawner<
   }
 
   setBuilders(builders: { [name: string]: SpawnerBuilder<T> }) {
-    this.setBuilder(() => new StemBlock(this.nav(), (val, orig)=>this.replaceChild(orig, val), builders));
+    this.setBuilder(
+      () =>
+        new StemBlock(
+          this.nav(),
+          (val, orig) => this.replaceChild(orig, val),
+          builders
+        )
+    );
   }
 
   createNew(): T | StemBlock {
