@@ -15,6 +15,7 @@ import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
 import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
 import Turn from "./Turn";
 import TreeListGenerator from "./TreeListGenerator";
+import StringTreeNode from './StringTreeNode';
 
 export default TreeNode;
 export {
@@ -33,6 +34,7 @@ export {
   TreeLabel,
   TreeList,
   ScheduleUpdateCallback,
+  StringTreeNode,
   WrappingTreeList,
   NewlineTreeNode,
   FunctionalTreeNode,
