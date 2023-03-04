@@ -12,4 +12,5 @@ export default interface TreeList<T = TreeNode> extends TreeNode {
   insertAfter(child: T, ref: T): boolean;
   replaceChild(refChild: T, newChild: T): void;
   removeChild(child: T): boolean;
+  setOnRemove(onRemove: (removed: T)=>void): void;
 }

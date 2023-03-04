@@ -12,6 +12,7 @@ export default abstract class AbstractTreeList<T extends TreeNode = TreeNode>
 {
   _children: T[];
   _title: TreeNode;
+  _onRemove: (removed: T)=>void;
 
   abstract connectInitialChild(
     root: PaintedNode,
@@ -32,7 +33,12 @@ export default abstract class AbstractTreeList<T extends TreeNode = TreeNode>
       this._children = [];
     }
     this._title = title;
+    this._onRemove = null;
     this.invalidate();
+  }
+
+  setOnRemove(onRemove: (removed: T) => void) {
+    this._onRemove = onRemove;
   }
 
   length(): number {
@@ -109,6 +115,8 @@ export default abstract class AbstractTreeList<T extends TreeNode = TreeNode>
     }
     refChild.setOnScheduleUpdate(null);
     newChild.setOnScheduleUpdate(() => this.invalidate());
+    const origChild = this._children[idx];
+    this._onRemove?.(origChild);
     this._children[idx] = newChild;
     this.invalidate();
   }
@@ -120,6 +128,7 @@ export default abstract class AbstractTreeList<T extends TreeNode = TreeNode>
       this._children.splice(idx, 1);
       child.setOnScheduleUpdate(null);
       this.invalidate();
+      this._onRemove?.(child);
     }
     return idx >= 0;
   }
