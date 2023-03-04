@@ -7,7 +7,7 @@ import AbstractTreeList from "./AbstractTreeList";
 import BasicTreeList from "./BasicTreeList";
 import InlineTreeList from "./InlineTreeList";
 import Multislot from "./Multislot";
-import AbstractSpawner from "./AbstractSpawner";
+import AbstractSpawner, { StemBlock } from "./AbstractSpawner";
 import HSpawner from "./HSpawner";
 import VSpawner from "./VSpawner";
 import InlineSpawner from "./InlineSpawner";
@@ -25,6 +25,7 @@ export {
   InlineTreeList,
   Multislot,
   AbstractSpawner,
+  StemBlock,
   HSpawner,
   VSpawner,
   InlineSpawner,

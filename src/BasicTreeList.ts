@@ -12,7 +12,9 @@ import Direction, {
 import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 
-export default class BasicTreeList extends AbstractTreeList {
+export default class BasicTreeList<
+  T extends TreeNode = TreeNode
+> extends AbstractTreeList<T> {
   _lastRow: PaintedNode;
   _palette: BlockPalette;
 
@@ -23,13 +25,13 @@ export default class BasicTreeList extends AbstractTreeList {
    * Creates a new BasicTreeList in the forward direction with no alignment.
    *
    * @param {TreeNode} title The root node of this tree list.
-   * @param {TreeNode[]} children The initial children of this tree list.
+   * @param {T[]} children The initial children of this tree list.
    * @param {BlockPalette} palette The palette to use to construct joining buds.
    */
   constructor(
     nav: Navport,
     title: TreeNode,
-    children: TreeNode[],
+    children: T[],
     palette: BlockPalette = new DefaultBlockPalette()
   ) {
     super(nav, title, children);

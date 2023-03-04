@@ -4,10 +4,12 @@ import Direction, { SHRINK_SCALE } from "parsegraph-direction";
 import TreeNode from "./TreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 
-export default class InlineTreeList extends AbstractTreeList {
+export default class InlineTreeList<
+  T extends TreeNode = TreeNode
+> extends AbstractTreeList<T> {
   _connectDir: Direction;
 
-  constructor(nav: Navport, title: TreeNode, children: TreeNode[]) {
+  constructor(nav: Navport, title: TreeNode, children: T[]) {
     super(nav, title, children);
     this._connectDir = Direction.FORWARD;
   }

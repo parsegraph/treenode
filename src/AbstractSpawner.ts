@@ -15,59 +15,58 @@ import TreeNode from "./TreeNode";
 import BlockTreeNode from "./BlockTreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 import FunctionalTreeNode from "./FunctionalTreeNode";
+import TreeList from "./TreeList";
 
-const makeProtoBlock = (
-  nav: Navport,
-  text: any,
-  builders: { [name: string]: () => TreeNode }
-) => {
-  const ftn = new FunctionalTreeNode(nav);
-  let state: TreeNode = null;
-  ftn.setCreator(() => {
-    if (state) {
-      return state.root();
-    }
-    const car = new BlockCaret("b");
-    const origStyle = car.node().value().blockStyle();
-    car
-      .node()
-      .value()
-      .setBlockStyle({
-        ...origStyle,
-        borderThickness: 6,
-        borderColor: origStyle.backgroundColor,
-        backgroundColor: new Color(0, 0, 0, 0),
-        dashes: [3, 1],
-      });
-    car.label(text);
-    const root = car.root();
+export type SpawnerBuilder<T extends TreeNode> = (node: T | StemBlock<T> | null) => T | StemBlock<T> | null;
 
-    const ac = new ActionCarousel(nav.carousel());
-    Object.keys(builders).forEach((name) => {
-      const builder = builders[name];
-      ac.addAction(name, () => {
-        root.disconnectNode();
-        const node = builder();
-        node.setOnScheduleUpdate(() => {
-          ftn.invalidate();
+export class StemBlock<
+  T extends TreeNode = TreeNode
+> extends FunctionalTreeNode {
+
+  constructor(nav: Navport, onBuild: (val: StemBlock<T> | T, orig: StemBlock<T>)=>void, builders: { [name: string]: SpawnerBuilder<T>}) {
+    super(nav);
+    this.setCreator(() => {
+      const car = new BlockCaret("b");
+      const origStyle = car.node().value().blockStyle();
+      car
+        .node()
+        .value()
+        .setBlockStyle({
+          ...origStyle,
+          borderThickness: 6,
+          borderColor: origStyle.backgroundColor,
+          backgroundColor: new Color(0, 0, 0, 0),
+          dashes: [3, 1],
         });
-        state = node;
-        ac.uninstall();
-        ftn.invalidate();
+      car.label("\u2026");
+      const root = car.root();
+
+      const ac = new ActionCarousel(nav.carousel());
+      Object.keys(builders).forEach((name) => {
+        const builder = builders[name];
+        ac.addAction(name, () => {
+          root.disconnectNode();
+          const node = builder(this);
+          if (node) {
+            onBuild(node, this);
+            return;
+          }
+        });
       });
+
+      ac.install(car.root());
+      return car.root();
     });
+  }
+}
 
-    ac.install(car.root());
-    return car.root();
-  });
-  return ftn;
-};
-
-export default abstract class AbstractSpawner extends AbstractTreeList {
+export default abstract class AbstractSpawner<
+  T extends TreeNode = TreeNode
+> extends AbstractTreeList<T | StemBlock<T>> {
   _lastRow: PaintedNode;
   _palette: DefaultBlockPalette;
 
-  constructor(nav: Navport, children: TreeNode[]) {
+  constructor(nav: Navport, children: T[]) {
     super(nav, new BlockTreeNode("u"), children);
     this._palette = new DefaultBlockPalette();
   }
@@ -90,7 +89,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     return this._palette;
   }
 
-  makeBud(value: TreeNode): PaintedNode {
+  makeBud(value: T | StemBlock): PaintedNode {
     const bud = this._palette.spawn("u");
     bud
       .value()
@@ -103,7 +102,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     return bud;
   }
 
-  commandsFor(value: TreeNode) {
+  commandsFor(value: T | StemBlock) {
     const ac = new ActionCarousel(this.nav().carousel(), this.palette());
     ac.addAction("Delete", () => {
       this.removeChild(value);
@@ -117,7 +116,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     return ac;
   }
 
-  installRootBud(root: PaintedNode, value: TreeNode) {
+  installRootBud(root: PaintedNode, value: T | StemBlock) {
     root
       .value()
       .interact()
@@ -128,26 +127,21 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     this.commandsFor(value).install(root);
   }
 
-  _builder: () => TreeNode;
+  _builder: SpawnerBuilder<T>;
 
-  setBuilder(builder: () => TreeNode) {
+  setBuilder(builder: SpawnerBuilder<T>) {
     this._builder = builder;
   }
 
-  addBuilders(builders: { [name: string]: () => TreeNode }) {
-    this.setBuilder(() => makeProtoBlock(this.nav(), "\u2026", builders));
+  setBuilders(builders: { [name: string]: SpawnerBuilder<T> }) {
+    this.setBuilder(() => new StemBlock(this.nav(), (val, orig)=>this.replaceChild(orig, val), builders));
   }
 
-  createNew(): TreeNode {
-    if (this._builder) {
-      return this._builder();
-    }
-    const child = new BlockTreeNode("b", "Added");
-    child.setOnScheduleUpdate(() => this.invalidate());
-    return child;
+  createNew(): T | StemBlock {
+    return this._builder(null);
   }
 
-  makeFirstBud(value: TreeNode): PaintedNode {
+  makeFirstBud(value: T | StemBlock): PaintedNode {
     const bud = this.makeSmallBud();
     bud
       .value()
@@ -162,7 +156,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
     return this._palette.spawn("u");
   }
 
-  makeNextBud(value: TreeNode): PaintedNode {
+  makeNextBud(value: T | StemBlock): PaintedNode {
     const bud = this.makeSmallBud();
     if (this._builder) {
       bud
@@ -178,7 +172,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
   connectInitialChild(
     root: PaintedNode,
     child: PaintedNode,
-    childValue: TreeNode
+    childValue: T | StemBlock
   ): PaintedNode {
     this.installRootBud(root, childValue);
     const bud = root;
@@ -197,7 +191,7 @@ export default abstract class AbstractSpawner extends AbstractTreeList {
   connectChild(
     lastChild: PaintedNode,
     child: PaintedNode,
-    childValue: TreeNode
+    childValue: T | StemBlock
   ): PaintedNode {
     const bud = this.makeBud(childValue);
     lastChild.connectNode(this.getDirection(), bud);

@@ -33,7 +33,7 @@ const makeBlock = (nav: Navport, list: HSpawner, text: any) => {
 const buildGraph = (nav: Navport): TreeNode => {
   const hSpawner = (turn: boolean) => () => {
     const list = new HSpawner(nav, []);
-    list.addBuilders({
+    list.setBuilders({
       ...builders,
       HSpawner: hSpawner(false),
       VSpawner: vSpawner(true),
@@ -43,7 +43,7 @@ const buildGraph = (nav: Navport): TreeNode => {
   };
   const vSpawner = (turn: boolean) => () => {
     const list = new VSpawner(nav, []);
-    list.addBuilders({
+    list.setBuilders({
       ...builders,
       HSpawner: hSpawner(true),
       VSpawner: vSpawner(false),

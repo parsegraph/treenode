@@ -4,28 +4,27 @@ import Navport from "parsegraph-viewport";
 import TreeNode from "./TreeNode";
 import AbstractTreeNode from "./AbstractTreeNode";
 import TreeList from "./TreeList";
-import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
 import { logEnterc, logLeave, logc, logEnter } from "parsegraph-log";
 
-export default abstract class AbstractTreeList
+export default abstract class AbstractTreeList<T extends TreeNode = TreeNode>
   extends AbstractTreeNode
-  implements TreeList
+  implements TreeList<T>
 {
-  _children: TreeNode[];
+  _children: T[];
   _title: TreeNode;
 
   abstract connectInitialChild(
     root: PaintedNode,
     child: PaintedNode,
-    childValue: TreeNode
+    childValue: T
   ): PaintedNode;
   abstract connectChild(
     lastChild: PaintedNode,
     child: PaintedNode,
-    childValue: TreeNode
+    childValue: T
   ): PaintedNode;
 
-  constructor(nav: Navport, title: TreeNode, children: TreeNode[]) {
+  constructor(nav: Navport, title: TreeNode, children: T[]) {
     super(nav);
     if (children) {
       this._children = [...children];
@@ -40,7 +39,7 @@ export default abstract class AbstractTreeList
     return this._children.length;
   }
 
-  checkChild(child: TreeNode) {
+  checkChild(child: any) {
     if (child === this) {
       throw new Error("Refusing to add list to itself");
     }
@@ -49,18 +48,8 @@ export default abstract class AbstractTreeList
     }
   }
 
-  makeFuncTreeNode(creator: TreeNodeCreator): TreeNode {
-    const child = new FunctionalTreeNode(this.nav());
-    child.setCreator(creator);
-    child.setOnScheduleUpdate(() => this.invalidate());
-    return child;
-  }
-
-  appendChild(child: TreeNode | TreeNodeCreator) {
+  appendChild(child: T) {
     logEnterc("Tree operations", "Appending node");
-    if (typeof child === "function") {
-      child = this.makeFuncTreeNode(child);
-    }
     this.checkChild(child);
     this._children.push(child);
     child.setOnScheduleUpdate(() => this.invalidate());
@@ -77,7 +66,7 @@ export default abstract class AbstractTreeList
     return -1;
   }
 
-  insertBefore(child: TreeNode | TreeNodeCreator, ref: TreeNode): boolean {
+  insertBefore(child: T, ref: T): boolean {
     if (ref == null) {
       if (this.length() > 0) {
         return this.insertBefore(child, this.childAt(0));
@@ -86,9 +75,6 @@ export default abstract class AbstractTreeList
       return true;
     }
     logEnterc("Tree operations", "Inserting node before ref");
-    if (typeof child === "function") {
-      child = this.makeFuncTreeNode(child);
-    }
     this.checkChild(child);
     const idx = this.indexOf(ref);
     if (idx >= 0) {
@@ -102,13 +88,10 @@ export default abstract class AbstractTreeList
     return idx >= 0;
   }
 
-  insertAfter(child: TreeNode | TreeNodeCreator, ref: TreeNode): boolean {
+  insertAfter(child: T, ref: T): boolean {
     if (ref == null) {
       this.appendChild(child);
       return true;
-    }
-    if (typeof child === "function") {
-      child = this.makeFuncTreeNode(child);
     }
     this.checkChild(child);
     const idx = this.indexOf(ref);
@@ -119,7 +102,18 @@ export default abstract class AbstractTreeList
     return this.insertBefore(child, this.childAt(idx + 1));
   }
 
-  removeChild(child: TreeNode) {
+  replaceChild(refChild: T, newChild: T) {
+    const idx = this.indexOf(refChild);
+    if (idx < 0) {
+      return;
+    }
+    refChild.setOnScheduleUpdate(null);
+    newChild.setOnScheduleUpdate(()=>this.invalidate());
+    this._children[idx] = newChild;
+    this.invalidate();
+  }
+
+  removeChild(child: T) {
     const idx = this.indexOf(child);
     if (idx >= 0) {
       logc("Tree operations", "Removing child node");
@@ -130,7 +124,7 @@ export default abstract class AbstractTreeList
     return idx >= 0;
   }
 
-  childAt(index: number) {
+  childAt(index: number): T {
     return this._children[index];
   }
 
@@ -140,7 +134,7 @@ export default abstract class AbstractTreeList
     }
   }
 
-  connectSpecial(childValue: TreeNode): PaintedNode {
+  connectSpecial(childValue: T): PaintedNode {
     logc(
       "Tree rendering",
       `${childValue}, child of ${this}, did not render a value`

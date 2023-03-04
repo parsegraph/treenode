@@ -18,10 +18,10 @@ import BlockTreeNode from "./BlockTreeNode";
 import AbstractTreeList from "./AbstractTreeList";
 import FunctionalTreeNode from "./FunctionalTreeNode";
 
-export default class InlineSpawner extends AbstractSpawner {
+export default class InlineSpawner<T extends TreeNode = TreeNode> extends AbstractSpawner<T> {
   _direction: Direction;
 
-  constructor(nav: Navport, children: TreeNode[]) {
+  constructor(nav: Navport, children: T[]) {
     super(nav, children);
     this.setTitle(new BlockTreeNode("b"));
     this._direction = Direction.DOWNWARD;
@@ -54,7 +54,7 @@ export default class InlineSpawner extends AbstractSpawner {
   connectInitialChild(
     root: PaintedNode,
     child: PaintedNode,
-    childValue: TreeNode
+    childValue: T
   ): PaintedNode {
     const bud = this.makeFirstBud(childValue);
     root.connectNode(Direction.INWARD, bud);
@@ -70,7 +70,7 @@ export default class InlineSpawner extends AbstractSpawner {
   connectChild(
     lastChild: PaintedNode,
     child: PaintedNode,
-    childValue: TreeNode
+    childValue: T
   ): PaintedNode {
     lastChild.connectNode(this.getDirection(), child);
     const nextBud = this.makeNextBud(childValue);
