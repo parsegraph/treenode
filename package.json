@@ -55,6 +55,6 @@
     "parsegraph-log": "^1.9.3"
   },
   "dependencies": {
-    "parsegraph-viewport": "^2.9.24"
+    "parsegraph-viewport": "^2.9.25"
   }
 }
