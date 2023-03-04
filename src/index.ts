@@ -14,6 +14,7 @@ import InlineSpawner from "./InlineSpawner";
 import WrappingTreeList, { NewlineTreeNode, NEWLINE } from "./WrappingTreeList";
 import FunctionalTreeNode, { TreeNodeCreator } from "./FunctionalTreeNode";
 import Turn from "./Turn";
+import TreeListGenerator from "./TreeListGenerator";
 
 export default TreeNode;
 export {
@@ -36,5 +37,6 @@ export {
   NewlineTreeNode,
   FunctionalTreeNode,
   TreeNodeCreator,
+  TreeListGenerator,
   NEWLINE,
 };
